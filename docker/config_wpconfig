@@ -1,0 +1,22 @@
+
+# Config added from code
+define('WP_DEFAULT_THEME', 'grahlie');
+define('DB_CHARSET', 'utf8mb4');
+define('DB_COLLATE', '');
+define('FS_METHOD', 'direct');
+
+# Disable edits & updates
+define('DISALLOW_FILE_EDIT', true);
+define('DISALLOW_FILE_MODS', true);
+define('AUTOMATIC_UPDATER_DISABLED', true);
+define('WP_AUTO_UPDATE_CORE', false);
+
+# Other settings
+define('WP_AUTO_UPDATE_CORE', false);
+define('AUTOMATIC_UPDATER_DISABLED', true);
+define('DISALLOW_FILE_EDIT', true);
+define('WP_MEMORY_LIMIT', '96M');
+define('WP_POST_REVISIONS', 3);
+if ( !defined('ABSPATH') )
+  define('ABSPATH', dirname(__FILE__) . '/');
+require_once(ABSPATH . 'wp-settings.php');

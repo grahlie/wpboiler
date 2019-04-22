@@ -1,57 +1,64 @@
-FROM php:7.2-fpm
+FROM php:7.3-apache
 
-# Keep upstart from complaining
-# RUN dpkg-divert --local --rename --add /sbin/initctl
-# RUN ln -sf /bin/true /sbin/initctl
+WORKDIR /
 
-# Let the container know that there is no tty
-# ENV DEBIAN_FRONTEND noninteractive
+ARG DBNAME
+ARG DBUSER
+ARG DBPASS
+ARG DBHOST
+ARG MULTISITE=0
+ARG DOMAIN
+ARG DEBUGMODE=0
+ARG HTTPS=0
 
-# RUN apt-get update && \
-# 	apt-get install -y --no-install-recommends \
-# 	nano bash less iputils-ping \
-# 	apache2 mailutils \
-# 	php libapache2-mod-php7.0 php7.0-mysql php7.0-gd opcache zip \
-# 	mysqli mysql-client && \
-# 	apt-get clean
+ENV DEBIAN_FRONTEND noninteractive
+ENV TERM xterm
+ENV PS1 "cms-\h:\w> "
+ENV DBNAME $DBNAME
+ENV DBUSER $DBUSER
+ENV DBPASS $DBPASS
+ENV DBHOST $DBHOST
+ENV MULTISITE $MULTISITE
+ENV DOMAIN $DOMAIN
+ENV DEBUGMODE $DEBUGMODE
+ENV HTTPS $HTTPS
 
-RUN set -ex; \
-	savedAptMark="$(apt-mark showmanual)"; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-	nano bash less iputils-ping \
-	libjpeg-dev libpng-dev \
-	; \
-	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
+RUN apt-get update \
+    apt-get install -y --no-install-recommends \
+        less bash nano sendmail \
+        libjpeg-dev \
+		libpng-dev \
+    ; \
+    docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
 	docker-php-ext-install gd mysqli opcache zip; \
-	\
-	# FROM WordPress Dockerfile
-	# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
-	apt-mark auto '.*' > /dev/null; \
-	apt-mark manual $savedAptMark; \
-	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
-	| awk '/=>/ { print $3 }' | sort -u | xargs -r dpkg-query -S | cut -d: -f1 | sort -u | xargs -rt apt-mark manual; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-	rm -rf /var/lib/apt/lists/*
+    
+RUN apt-get clean \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    rm -r /var/www/html \
+    rm -f /etc/apache2/sites-enabled/000-default.conf
 
-# Settings for PHP
-ADD php_config /php_config
-RUN cat /php_config >> /etc/php/7.2/apache2/php.ini
-RUN phpenmod opcache
+COPY create_htaccess.sh /create_htaccess.sh \
+     create_wpconfig.sh /create_wpconfig.sh \
+     config_htaccess    /config_htaccess \
+     config_wpconfig    /config_wpconfig \
+     config_apache      /etc/apache2/sites-enabled/default.conf \
+     config_php         /config_php
 
-# Settings for Apache
-# RUN rm -rf /var/www/html
-# ADD apache_config.conf /etc/apache2/sites-enabled/000-default.conf
-# ADD apache_config.conf /etc/apache2/sites-available/000-default.conf
+RUN chmod +x create_htaccess.sh create_wpconfig.sh \
+    /create_htaccess.sh /create_wpconfig.sh \
+    cat /config_htaccess >> /var/www/.htaccess \
+    cat /config_wpconfig >> /var/www/wp-config.php \
+    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    cat /config_php >>  "$PHP_INI_DIR/php.ini"
 
+RUN rm create_htaccess.sh create_wpconfig.sh config_htaccess config_php config_wpconfig \
+    mkdir -p /var/www/wp-content/uploads \
+    chown -R www-data:www-data /var/www/wp-content &
 
-# Get necessary files for WordPress
-# ADD database.sql database.sql
-
-# Wordpress init script
-# ADD wordpress.sh /wordpress.sh
-# RUN chmod +x /wordpress.sh
+RUN a2enmod rewrite expires deflate headers \
+    phpenmod opcache \
+    yes | sendmailconfig
 
 EXPOSE 80
 
-CMD apachectl -D FOREGROUND
+CMD ["apache2-foreground"]

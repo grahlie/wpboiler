@@ -44,13 +44,13 @@ echo ""
 echo "3) Build docker"
 cd ./docker
 if [[ $inputVariable == 'production' ]]; then
-    ./build_web.sh production
+    ./compose_build.sh production
 elif [[ $inputVariable == 'fresh' ]]; then
     echo "Fresh docker-compose.yml file"
     rm docker-compose.yml
-    ./build_web.sh dev
+    ./compose_build.sh dev
 elif [[ $inputVariable == 'dev' ]]; then
-    ./build_web.sh dev
+    ./compose_build.sh dev
 fi
 
 echo "==============="

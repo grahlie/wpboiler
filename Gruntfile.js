@@ -4,18 +4,6 @@ module.exports = function(grunt) {
       config: grunt.file.readJSON('config.json'),
       deploy: process.cwd() + '/<%= config.grunt.deploy %>',
 
-    // Download packages from other places
-    // 'curl-dir': {
-    //   'downloads/': [
-    //     '<%= config.grunt.wp.link %><%= config.grunt.wp.version %>.zip',
-    //   ],
-    // },
-
-    // Unzip downloaded folders
-    // unzip: {
-    //   'extracted/': 'downloads/<%= config.grunt.wp.version %>.zip',
-    // },
-
     copy: {
       deploy: {
         files: [{
@@ -105,8 +93,6 @@ module.exports = function(grunt) {
   });
 
   // GRUNT LOADS
-  // grunt.loadNpmTasks('grunt-curl');
-  // grunt.loadNpmTasks('grunt-zip');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');

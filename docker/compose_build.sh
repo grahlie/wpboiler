@@ -1,13 +1,14 @@
 #!/bin/bash
+inputVariable=$1
 echo ""
 echo "==============="
-echo "Running build_web.sh in $1"
+echo "Running compose_build.sh in $inputVariable"
 echo "==============="
 echo ""
 
 echo "3.1) Install JSON parser"
 UNAME=`uname`
-which -s jq >/dev/null
+which jq >/dev/null
 if [[ $? == 1 ]]; then 
     if [[ "$UNAME" == 'Linux' ]]; then
         # TODO: this doesn't work
@@ -23,7 +24,7 @@ echo ""
 echo "3.2) Set some variables"
 if [[ $inputVariable == 'production' ]]; then
     FILE="../config.prod.json"
-    if [[ ! -d $FILE ]]; then
+    if [ ! -f $FILE ]; then
         echo "config.prod.json Doesn't exists you need to create this first!"
         echo "exiting script here"
         exit;
@@ -39,8 +40,8 @@ DOMAIN=$(jq .docker.domain $FILE)
 DBNAME=$(jq .docker.dbname $FILE)
 DBUSER=$(jq .docker.dbuser $FILE)
 DBPASS=$(jq .docker.dbpass $FILE)
-# DBVOLUME=$(jq .docker.dbvolume $FILE)
-DEBUG=$(jq .docker.debug $FILE)
+DEBUGMODE=$(jq .docker.debug $FILE)
+HTTPS=$(jq .docker.https $FILE)
 MACHINE=$(jq .docker.machine $FILE)
 MULTISITE=$(jq .docker.multisite $FILE)
 VERSION=$(jq .docker.version $FILE)
@@ -64,18 +65,16 @@ DBUSER="${DBUSER%\"}"
 DBUSER="${DBUSER#\"}"
 DBPASS="${DBPASS%\"}"
 DBPASS="${DBPASS#\"}"
-# DBVOLUME="${DBVOLUME%\"}"
-# DBVOLUME="${DBVOLUME#\"}"
-DEBUG="${DEBUG%\"}"
-DEBUG="${DEBUG#\"}"
+DEBUGMODE="${DEBUGMODE%\"}"
+DEBUGMODE="${DEBUGMODE#\"}"
+HTTPS="${HTTPS%\"}"
+HTTPS="${HTTPS#\"}"
 MACHINE="${MACHINE%\"}"
 MACHINE="${MACHINE#\"}"
 MULTISITE="${MULTISITE%\"}"
 MULTISITE="${MULTISITE#\"}"
 VERSION="${VERSION%\"}"
 VERSION="${VERSION#\"}"
-
-MOUNTED=${PWD%"docker"}${FOLDER#"/"}
 
 echo "==============="
 echo ""
@@ -93,13 +92,11 @@ if [[ ! -e $dockercompose ]]; then
     echo "      MYSQL_DATABASE:" $DBNAME                                    >> ./docker-compose.yml
     echo "      MYSQL_USER:" $DBUSER                                        >> ./docker-compose.yml
     echo "      MYSQL_PASSWORD:" $DBPASS                                    >> ./docker-compose.yml
-    echo "    volumes:"                                                     >> ./docker-compose.yml
-    echo "      - ./database.sql:/docker-entrypoint-initdb.d/database.sql"  >> ./docker-compose.yml
     echo "    container_name: " $NAME"-db"                                  >> ./docker-compose.yml
     echo "  "$NAME":"                                                       >> ./docker-compose.yml
-    echo "    image: wordpress:"$VERSION                                    >> ./docker-compose.yml
+    echo "    image: ."                                                     >> ./docker-compose.yml
     echo "    volumes:"                                                     >> ./docker-compose.yml
-    echo "      - "$MOUNTED":/var/www/html/wp-content/themes/"$NAME         >> ./docker-compose.yml
+    echo "      - "$FOLDER":/var/www/wp-content/themes/"$NAME               >> ./docker-compose.yml
     echo "    expose:"                                                      >> ./docker-compose.yml
     echo "      - 80"                                                       >> ./docker-compose.yml
     echo "    depends_on:"                                                  >> ./docker-compose.yml
@@ -111,32 +108,35 @@ if [[ ! -e $dockercompose ]]; then
     echo "      WORDPRESS_DB_USER:" $DBUSER                                 >> ./docker-compose.yml
     echo "      WORDPRESS_DB_PASSWORD:" $DBPASS                             >> ./docker-compose.yml
     echo "      WORDPRESS_DB_HOST:" $NAME"-db"                              >> ./docker-compose.yml
-
     if [[ $DEBUG == 1 ]]; then 
         echo "      WORDPRESS_DEBUG:" $DEBUG                                >> ./docker-compose.yml
     fi
-
-    # TODO: Wordpress image doesn't work with this
-    if [[ $MULTISITE == 1 ]]; then
-        echo "      WORDPRESS_CONFIG_EXTRA: |"                              >> ./docker-compose.yml
-        echo "        define('WP_ALLOW_MULTISITE', true );"                 >> ./docker-compose.yml
-        echo "        define('MULTISITE', true);"                           >> ./docker-compose.yml
-        echo "        define('SUBDOMAIN_INSTALL', false);"                  >> ./docker-compose.yml
-        echo "        define('DOMAIN_CURRENT_SITE', '$DOMAIN');"            >> ./docker-compose.yml
-        echo "        define('PATH_CURRENT_SITE', '/');"                    >> ./docker-compose.yml
-        echo "        define('SITE_ID_CURRENT_SITE', 1);"                   >> ./docker-compose.yml
-        echo "        define('BLOG_ID_CURRENT_SITE', 1);"                   >> ./docker-compose.yml
-    fi
-
     echo "      DOMAIN:" $DOMAIN                                            >> ./docker-compose.yml
     echo "    container_name: " $NAME                                       >> ./docker-compose.yml
+    if [[ $HTTPS == 1 ]]; then
+        echo "  letsencrypt:"                                               >> ./docker-compose.yml
+        echo "    image: jrcs/letsencrypt-nginx-proxy-companion"            >> ./docker-compose.yml
+        echo "    volumes:"                                                 >> ./docker-compose.yml
+        echo "      - /var/run/docker.sock:/tmp/docker.sock:ro"             >> ./docker-compose.yml
+        echo "      - "$FOLDER"../nginx/vhost.d:/etc/nginx/vhost.d"         >> ./docker-compose.yml
+        echo "      - "$FOLDER"../nginx/certs:/etc/nginx/certs:rw"          >> ./docker-compose.yml
+        echo "      - "$FOLDER"../nginx/html:/usr/share/nginx/html"         >> ./docker-compose.yml
+    fi
     echo "  nginx-proxy:"                                                   >> ./docker-compose.yml
     echo "    image: jwilder/nginx-proxy"                                   >> ./docker-compose.yml
     echo "    container_name: nginx-proxy"                                  >> ./docker-compose.yml
     echo "    ports:"                                                       >> ./docker-compose.yml
     echo "      - '80:80'"                                                  >> ./docker-compose.yml
+    if [[ $HTTPS == 1 ]]; then
+        echo "      - '443:443'"                                            >> ./docker-compose.yml
+    fi
     echo "    volumes:"                                                     >> ./docker-compose.yml
     echo "      - /var/run/docker.sock:/tmp/docker.sock:ro"                 >> ./docker-compose.yml
+    if [[ $HTTPS == 1 ]]; then
+        echo "      - "$FOLDER"../nginx/vhost.d:/etc/nginx/vhost.d"         >> ./docker-compose.yml
+        echo "      - "$FOLDER"../nginx/certs:/etc/nginx/certs:rw"          >> ./docker-compose.yml
+        echo "      - "$FOLDER"../nginx/html:/usr/share/nginx/html"         >> ./docker-compose.yml
+    fi
     echo "networks:"                                                        >> ./docker-compose.yml
     echo "  default:"                                                       >> ./docker-compose.yml
     echo "    external:"                                                    >> ./docker-compose.yml
@@ -146,29 +146,6 @@ fi
 echo "==============="
 echo ""
 
-echo "3.5) Compose up"
-docker-compose up -d
-
-echo "==============="
-echo ""
-
-echo "3.6) Configure hosts file"
 if [[ $inputVariable != 'production' ]]; then
-    HOSTIP="$(docker-machine ip $MACHINE)"
-    if grep -Fxq "$HOSTIP $DOMAIN" /etc/hosts; then
-        echo "Already exists in host file"
-    else
-        echo "Added to host file"
-        sudo cp /etc/hosts /etc/hosts.backup
-        sudo -- sh -c "echo $HOSTIP $DOMAIN >> /etc/hosts"
-    fi
-else
-    echo "Running in production so no change in hostfile"
+    ./compose_run.sh $MACHINE $DOMAIN
 fi
-
-if [[ $inputVariable != 'production' ]]; then
-    echo "7) You're up and running buddy!"
-    echo "The website is running on http://$DOMAIN"
-    echo "Next command you can run is grunt watch to start develop your theme"
-fi
-echo "==============="
