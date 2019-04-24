@@ -25,39 +25,34 @@ ENV HTTPS $HTTPS
 
 RUN apt-get update; \
     apt-get install -y --no-install-recommends \
-        less bash nano sendmail \
+        less sendmail \
         libjpeg-dev \
 		libpng-dev \
     ; \
-    # docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
-	docker-php-ext-install gd mysqli opcache;
+	docker-php-ext-install gd mysqli opcache; \
+    apt-get clean && \
+    rm -r /var/lib/apt/lists/* && \
+    rm -r /var/www/html && \
+    rm /etc/apache2/sites-enabled/000-default.conf;
+
+ADD create_htaccess.sh create_wpconfig.sh config_htaccess config_wpconfig config_apache config_php ./
     
-RUN apt-get clean \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    rm -r /var/www/html \
-    rm -f /etc/apache2/sites-enabled/000-default.conf
+RUN chmod +x create_htaccess.sh create_wpconfig.sh; \
+    /create_htaccess.sh && /create_wpconfig.sh; \
+    \
+    cat /config_htaccess >> /var/www/.htaccess; \
+    cat /config_wpconfig >> /var/www/wp-config.php; \
+    \
+    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"; \
+    cat /config_php >>  "$PHP_INI_DIR/php.ini"; \
+    \
+    rm create_htaccess.sh create_wpconfig.sh config_htaccess config_php config_wpconfig; \
+    \
+    mkdir -p /var/www/wp-content/uploads; \
+    chown -R www-data:www-data /var/www/wp-content;
 
-COPY create_htaccess.sh /create_htaccess.sh \
-     create_wpconfig.sh /create_wpconfig.sh \
-     config_htaccess    /config_htaccess \
-     config_wpconfig    /config_wpconfig \
-     config_apache      /etc/apache2/sites-enabled/default.conf \
-     config_php         /config_php
-
-RUN chmod +x create_htaccess.sh create_wpconfig.sh \
-    /create_htaccess.sh /create_wpconfig.sh \
-    cat /config_htaccess >> /var/www/.htaccess \
-    cat /config_wpconfig >> /var/www/wp-config.php \
-    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    cat /config_php >>  "$PHP_INI_DIR/php.ini"
-
-RUN rm create_htaccess.sh create_wpconfig.sh config_htaccess config_php config_wpconfig \
-    mkdir -p /var/www/wp-content/uploads \
-    chown -R www-data:www-data /var/www/wp-content &
-
-RUN a2enmod rewrite expires deflate headers \
-    phpenmod opcache \
-    yes | sendmailconfig
+RUN a2enmod rewrite expires deflate headers; \
+    yes | /usr/sbin/sendmailconfig;
 
 EXPOSE 80
 

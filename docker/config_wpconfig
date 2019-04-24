@@ -17,6 +17,7 @@ define('AUTOMATIC_UPDATER_DISABLED', true);
 define('DISALLOW_FILE_EDIT', true);
 define('WP_MEMORY_LIMIT', '96M');
 define('WP_POST_REVISIONS', 3);
+
 if ( !defined('ABSPATH') )
   define('ABSPATH', dirname(__FILE__) . '/');
 require_once(ABSPATH . 'wp-settings.php');

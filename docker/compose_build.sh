@@ -123,7 +123,7 @@ if [[ ! -e $dockercompose ]]; then
         echo "      - "$FOLDER"../nginx/certs:/etc/nginx/certs:rw"          >> ./docker-compose.yml
         echo "      - "$FOLDER"../nginx/html:/usr/share/nginx/html"         >> ./docker-compose.yml
     fi
-    echo "  nginx-proxy:"                                                   >> ./docker-compose.yml
+    echo "  nginx:"                                                         >> ./docker-compose.yml
     echo "    image: jwilder/nginx-proxy"                                   >> ./docker-compose.yml
     echo "    container_name: nginx-proxy"                                  >> ./docker-compose.yml
     echo "    ports:"                                                       >> ./docker-compose.yml

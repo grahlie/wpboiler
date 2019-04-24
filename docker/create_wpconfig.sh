@@ -40,9 +40,9 @@ echo "define('DB_NAME', '"$DBNAME"');"                 >>/var/www/wp-config.php
 echo "define('DB_USER', '"$DBUSER"');"                 >>/var/www/wp-config.php
 echo "define('DB_PASSWORD', '"$DBPASS"');"             >>/var/www/wp-config.php
 echo "define('DB_HOST', '"$DBHOST"');"                 >>/var/www/wp-config.php
-echo "\$table_prefix  = '"$DBNAME"_gr4hl13_';"         >>/var/www/wp-config.php
 echo "define('WP_SITEURL', 'http://"$DOMAIN"');"       >>/var/www/wp-config.php
 echo "define('WP_HOME', 'http://"$DOMAIN"');"          >>/var/www/wp-config.php
+echo "\$table_prefix  = '"$DBNAME"_gr4hl13_';"         >>/var/www/wp-config.php
 
 echo ""                                                >>/var/www/wp-config.php
 
