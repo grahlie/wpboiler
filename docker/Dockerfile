@@ -23,14 +23,14 @@ ENV DOMAIN $DOMAIN
 ENV DEBUGMODE $DEBUGMODE
 ENV HTTPS $HTTPS
 
-RUN apt-get update \
+RUN apt-get update; \
     apt-get install -y --no-install-recommends \
         less bash nano sendmail \
         libjpeg-dev \
 		libpng-dev \
     ; \
-    docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
-	docker-php-ext-install gd mysqli opcache zip; \
+    # docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
+	docker-php-ext-install gd mysqli opcache;
     
 RUN apt-get clean \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \

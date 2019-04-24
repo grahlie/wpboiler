@@ -1,0 +1,11 @@
+{
+    "eslint.nodePath": "./node_modules",
+    "eslint.options": {
+        "configFile": "./.eslintrc.js"
+    },
+    "stylelint.enable": true,
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
+    "phpcs.composerJsonPath": "./composer.json"
+}

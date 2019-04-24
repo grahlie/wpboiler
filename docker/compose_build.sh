@@ -104,14 +104,15 @@ if [[ ! -e $dockercompose ]]; then
     echo "    restart: always"                                              >> ./docker-compose.yml
     echo "    environment:"                                                 >> ./docker-compose.yml
     echo "      VIRTUAL_HOST:" $DOMAIN", www."$DOMAIN                       >> ./docker-compose.yml
-    echo "      WORDPRESS_DB_NAME:" $DBNAME                                 >> ./docker-compose.yml
-    echo "      WORDPRESS_DB_USER:" $DBUSER                                 >> ./docker-compose.yml
-    echo "      WORDPRESS_DB_PASSWORD:" $DBPASS                             >> ./docker-compose.yml
-    echo "      WORDPRESS_DB_HOST:" $NAME"-db"                              >> ./docker-compose.yml
-    if [[ $DEBUG == 1 ]]; then 
-        echo "      WORDPRESS_DEBUG:" $DEBUG                                >> ./docker-compose.yml
-    fi
+    echo "    args:"                                                        >> ./docker-compose.yml
+    echo "      DBNAME:" $DBNAME                                            >> ./docker-compose.yml
+    echo "      DBUSER:" $DBUSER                                            >> ./docker-compose.yml
+    echo "      DBPASS:" $DBPASS                                            >> ./docker-compose.yml
+    echo "      DBHOST:" $NAME"-db"                                         >> ./docker-compose.yml
     echo "      DOMAIN:" $DOMAIN                                            >> ./docker-compose.yml
+    echo "      MULTISITE:" $MULTISITE                                      >> ./docker-compose.yml
+    echo "      DEBUGMODE:" $DEBUGMODE                                      >> ./docker-compose.yml
+    echo "      HTTPS:" $HTTPS                                              >> ./docker-compose.yml
     echo "    container_name: " $NAME                                       >> ./docker-compose.yml
     if [[ $HTTPS == 1 ]]; then
         echo "  letsencrypt:"                                               >> ./docker-compose.yml
