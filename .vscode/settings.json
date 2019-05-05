@@ -1,11 +1,19 @@
 {
-    "eslint.nodePath": "./node_modules",
-    "eslint.options": {
-        "configFile": "./.eslintrc.js"
-    },
-    "stylelint.enable": true,
-    "css.validate": false,
-    "less.validate": false,
-    "scss.validate": false,
-    "phpcs.composerJsonPath": "./composer.json"
+  "eslint.nodePath": "./node_modules",
+  "eslint.options": {
+    "configFile": "./.eslintrc.js"
+  },
+  // CSS
+  "stylelint.enable": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+
+  // Javascript
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "prettier.eslintIntegration": true,
+
+  // PHP
+  "phpcs.composerJsonPath": "./composer.json"
 }
