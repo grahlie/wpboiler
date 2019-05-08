@@ -1,23 +1,16 @@
-module.exports = function(grunt) {
-  grunt.initConfig({
-      pkg: grunt.file.readJSON('package.json'),
-      config: grunt.file.readJSON('config.json'),
-      deploy: process.cwd() + '/<%= config.grunt.deploy %>',
+/* eslint-disable no-undef */
+// eslint-disable-next-line no-undef
+module.exports = function( grunt ) {
+  require( 'load-grunt-tasks' )( grunt );
 
-    copy: {
-      deploy: {
-        files: [{
-          expand: true,
-          cwd: 'theme/',
-          src: ['**/*.php', 'framework/**/*'],
-          dest: '<%= deploy %>',
-        }]
-      }
-    },
+  grunt.initConfig( {
+    pkg: grunt.file.readJSON( 'package.json' ),
+    config: grunt.file.readJSON( 'config.json' ),
+    deploy: process.cwd() + '/<%= config.grunt.deploy %>',
 
     /*
      * SCSS
-     * 
+     *
      * Build css from scss
      * autoprefix
      */
@@ -39,70 +32,90 @@ module.exports = function(grunt) {
         }
       }
     },
-    autoprefixer:{
-      dist:{
-        files:{
-          '<%= deploy %>/style.css':'<%= deploy %>/style.css'
+    autoprefixer: {
+      dist: {
+        files: {
+          '<%= deploy %>/style.css': '<%= deploy %>/style.css'
         }
       }
     },
-    
+
     /*
      * Javascript
-     * 
-     * Check for errors
+     *
+     * Check rules
      * Minify/Uglify
      */
-    jshint: {
-      all: ['/js/development/*.js', '!js/development/libs/**/*.js']
+    eslint: {
+      options: {
+        configFile: './.eslintrc.js'
+      },
+      target: [ './theme/js/development/**/*.js' ]
     },
+
     uglify: {
       production: {
         files: {
-          '<%= deploy %>/js/scripts.min.js': ['theme/js/development/**/*.js']
+          '<%= deploy %>/js/scripts.min.js': [ 'theme/js/development/**/*.js' ]
         }
+      }
+    },
+
+    /*
+     * PHP
+     *
+     * Check rules
+     * Fix errors
+     * Copy to deploy
+     */
+    phpcs: {
+      application: {
+        src: 'theme/**/*.php'
       },
-      dev: {
-        options: {
-          mangle: false,
-          beautify: true
-        },
-        files: {
-          '<%= deploy %>/js/scripts.min.js': ['theme/js/development/**/*.js']
-        }
+      options: {
+        bin: 'vendor/bin/phpcs',
+        standard: 'WordPress'
+      }
+    },
+
+    copy: {
+      php: {
+        files: [
+          {
+            expand: true,
+            cwd: 'theme/',
+            src: [ '**/*.php', 'framework/**/*' ],
+            dest: '<%= deploy %>'
+          }
+        ]
       }
     },
 
     watch: {
       options: {
-        livereload: true,
+        livereload: true
       },
       php: {
-        files: ['theme/**/*.php'],
-        tasks: ['copy:deploy']
+        files: [ 'theme/**/*.php' ],
+        tasks: [ 'php' ]
       },
       css: {
-        files: ['theme/sass/**/*.scss'],
-        tasks: ['sass:dev', 'autoprefixer']
+        files: [ 'theme/sass/**/*.scss' ],
+        tasks: [ 'stylesheet' ]
       },
       js: {
-        files: ['theme/js/development/**/*.js'],
-        tasks: ['jshint', 'uglify:dev']
+        files: [ 'theme/js/development/**/*.js' ],
+        tasks: [ 'javascript' ]
       }
     }
-  });
+  } );
 
-  // GRUNT LOADS
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-autoprefixer');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  // grunt.loadNpmTasks('grunt-browser-sync');
+  // Grunt language collection
+  grunt.registerTask( 'php', [ 'phpcs', 'copy:php' ] );
+  grunt.registerTask( 'javascript', [ 'eslint', 'uglify' ] );
+  grunt.registerTask( 'stylesheet', [ 'sass', 'autoprefixer' ] );
 
-  // GRUNT TRIGGERS
-  grunt.registerTask('default', ['jshint', 'copy:deploy', 'uglify:dev', 'sass:dev', 'autoprefixer']);
-  grunt.registerTask('dev', ['jshint', 'copy:deploy', 'uglify:dev', 'sass:dev', 'autoprefixer']);
-  grunt.registerTask('production', ['jshint', 'copy:deploy', 'uglify:production', 'sass:production', 'autoprefixer']);
-}
+  // Grunt triggers
+  grunt.registerTask( 'dev', [ 'php', 'javascript', 'stylesheet' ] );
+  grunt.registerTask( 'production', [ 'php', 'javscript', 'stylesheet' ] );
+};

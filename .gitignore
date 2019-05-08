@@ -18,6 +18,7 @@ style.css.map
 ehthumbs.db
 Thumbs.db
 node_modules
+vendor
 .sass-cache/
 downloads
 extracted

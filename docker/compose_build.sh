@@ -94,7 +94,18 @@ if [[ ! -e $dockercompose ]]; then
     echo "      MYSQL_PASSWORD:" $DBPASS                                    >> ./docker-compose.yml
     echo "    container_name: " $NAME"-db"                                  >> ./docker-compose.yml
     echo "  "$NAME":"                                                       >> ./docker-compose.yml
-    echo "    image: ."                                                     >> ./docker-compose.yml
+    echo "    build:"                                                       >> ./docker-compose.yml
+    echo "      context: ."                                                 >> ./docker-compose.yml
+    echo "      dockerfile: Dockerfile"                                     >> ./docker-compose.yml
+    echo "      args:"                                                      >> ./docker-compose.yml
+    echo "        DBNAME:" $DBNAME                                          >> ./docker-compose.yml
+    echo "        DBUSER:" $DBUSER                                          >> ./docker-compose.yml
+    echo "        DBPASS:" $DBPASS                                          >> ./docker-compose.yml
+    echo "        DBHOST:" $NAME"-db"                                       >> ./docker-compose.yml
+    echo "        DOMAIN:" $DOMAIN                                          >> ./docker-compose.yml
+    echo "        MULTISITE:" $MULTISITE                                    >> ./docker-compose.yml
+    echo "        DEBUGMODE:" $DEBUGMODE                                    >> ./docker-compose.yml
+    echo "        HTTPS:" $HTTPS                                            >> ./docker-compose.yml
     echo "    volumes:"                                                     >> ./docker-compose.yml
     echo "      - "$FOLDER":/var/www/wp-content/themes/"$NAME               >> ./docker-compose.yml
     echo "    expose:"                                                      >> ./docker-compose.yml
@@ -104,15 +115,6 @@ if [[ ! -e $dockercompose ]]; then
     echo "    restart: always"                                              >> ./docker-compose.yml
     echo "    environment:"                                                 >> ./docker-compose.yml
     echo "      VIRTUAL_HOST:" $DOMAIN", www."$DOMAIN                       >> ./docker-compose.yml
-    echo "    args:"                                                        >> ./docker-compose.yml
-    echo "      DBNAME:" $DBNAME                                            >> ./docker-compose.yml
-    echo "      DBUSER:" $DBUSER                                            >> ./docker-compose.yml
-    echo "      DBPASS:" $DBPASS                                            >> ./docker-compose.yml
-    echo "      DBHOST:" $NAME"-db"                                         >> ./docker-compose.yml
-    echo "      DOMAIN:" $DOMAIN                                            >> ./docker-compose.yml
-    echo "      MULTISITE:" $MULTISITE                                      >> ./docker-compose.yml
-    echo "      DEBUGMODE:" $DEBUGMODE                                      >> ./docker-compose.yml
-    echo "      HTTPS:" $HTTPS                                              >> ./docker-compose.yml
     echo "    container_name: " $NAME                                       >> ./docker-compose.yml
     if [[ $HTTPS == 1 ]]; then
         echo "  letsencrypt:"                                               >> ./docker-compose.yml

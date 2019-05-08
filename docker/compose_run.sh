@@ -1,6 +1,13 @@
 MACHINE=$1
 DOMAIN=$2
-HOSTIP="$(docker-machine ip $MACHINE)"
+
+if [ ! $MACHINE == 'none' ]; then
+    HOSTIP="$(docker-machine ip $MACHINE)"
+fi
+
+if [ "docker network ls | grep nginx" ]; then
+    docker network create nginx-proxy
+fi
 
 echo "3.5) Compose up"
 docker-compose up -d

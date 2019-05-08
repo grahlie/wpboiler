@@ -17,15 +17,10 @@ if [[ $inputVariable < 1 ]]; then
 fi
 
 echo "1) NPM Install"
-if [[ ! -d 'node_modules' ]]; then
+if [ ! -d 'node_modules' ] || [[ $inputVariable == 'fresh' ]]; then
     npm install
 else
-    if [[ $inputVariable == 'fresh' ]]; then
-        echo "Fresh npm install"
-        npm install
-    else
-        echo "node_modules already exists"
-    fi
+    echo "node_modules already exists"
 fi
 
 echo "==============="

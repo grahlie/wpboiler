@@ -1,17 +1,17 @@
 {
-    "name": "grunt-wordpress-starter",
-    "grunt": {
-        "deploy": "/deploy"
-    },
-    "docker": {
-        "domain": "gruntwordpresstarter.local",
-        "dbname": "wp_grunt_wordpress_starter",
-        "dbuser": "wpdev",
-        "dbpass": "wpdev",
-        "debug": 0,
-        "multisite": 0,
-        "version": "4.9.8",
-        "port": 80,
-        "machine": "dinghy"
-    }
+  "name": "grunt-wordpress-starter",
+  "grunt": {
+    "deploy": "/deploy"
+  },
+  "docker": {
+    "domain": "gruntwordpresstarter.local",
+    "dbname": "wp_grunt_wordpress_starter",
+    "dbuser": "wpdev",
+    "dbpass": "wpdev",
+    "debug": 0,
+    "multisite": 0,
+    "version": "4.9.8",
+    "port": 80,
+    "machine": "none"
+  }
 }
