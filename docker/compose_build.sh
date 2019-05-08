@@ -6,7 +6,7 @@ echo "Running compose_build.sh in $inputVariable"
 echo "==============="
 echo ""
 
-echo "3.1) Install JSON parser"
+echo "Install JSON parser"
 UNAME=`uname`
 which jq >/dev/null
 if [[ $? == 1 ]]; then 
@@ -21,7 +21,7 @@ fi
 echo "==============="
 echo ""
 
-echo "3.2) Set some variables"
+echo "Set some variables"
 if [[ $inputVariable == 'production' ]]; then
     FILE="../config.prod.json"
     if [ ! -f $FILE ]; then
@@ -34,29 +34,24 @@ else
 fi
 
 NAME=$(jq .name $FILE)
-FOLDER=$(jq .grunt.deploy $FILE)
-PORT=$(jq .docker.port $FILE)
+FOLDER=$(jq .deploy $FILE)
 DOMAIN=$(jq .docker.domain $FILE)
 DBNAME=$(jq .docker.dbname $FILE)
 DBUSER=$(jq .docker.dbuser $FILE)
 DBPASS=$(jq .docker.dbpass $FILE)
 DEBUGMODE=$(jq .docker.debug $FILE)
-HTTPS=$(jq .docker.https $FILE)
-MACHINE=$(jq .docker.machine $FILE)
 MULTISITE=$(jq .docker.multisite $FILE)
-VERSION=$(jq .docker.version $FILE)
+PORT=$(jq .docker.port $FILE)
 
 echo "==============="
 echo ""
 
-echo "3.3) Strip specialchars from JSON value"
+echo "Strip specialchars from JSON value"
 # TODO: Find a solution to loop this
 NAME="${NAME%\"}"
 NAME="${NAME#\"}"
 FOLDER="${FOLDER%\"}"
 FOLDER="${FOLDER#\"}"
-PORT="${PORT%\"}"
-PORT="${PORT#\"}"
 DOMAIN="${DOMAIN%\"}"
 DOMAIN="${DOMAIN#\"}"
 DBNAME="${DBNAME%\"}"
@@ -67,19 +62,15 @@ DBPASS="${DBPASS%\"}"
 DBPASS="${DBPASS#\"}"
 DEBUGMODE="${DEBUGMODE%\"}"
 DEBUGMODE="${DEBUGMODE#\"}"
-HTTPS="${HTTPS%\"}"
-HTTPS="${HTTPS#\"}"
-MACHINE="${MACHINE%\"}"
-MACHINE="${MACHINE#\"}"
 MULTISITE="${MULTISITE%\"}"
 MULTISITE="${MULTISITE#\"}"
-VERSION="${VERSION%\"}"
-VERSION="${VERSION#\"}"
+PORT="${PORT%\"}"
+PORT="${PORT#\"}"
 
 echo "==============="
 echo ""
 
-echo "3.4) Create compose file"
+echo "Create compose file"
 dockercompose="./docker-compose.yml"
 if [[ ! -e $dockercompose ]]; then
     echo "version: '2'"                                                     >> ./docker-compose.yml
@@ -105,7 +96,9 @@ if [[ ! -e $dockercompose ]]; then
     echo "        DOMAIN:" $DOMAIN                                          >> ./docker-compose.yml
     echo "        MULTISITE:" $MULTISITE                                    >> ./docker-compose.yml
     echo "        DEBUGMODE:" $DEBUGMODE                                    >> ./docker-compose.yml
-    echo "        HTTPS:" $HTTPS                                            >> ./docker-compose.yml
+    if [[ $inputVariable == 'production' ]]; then
+        echo "        HTTPS:" 1                                             >> ./docker-compose.yml
+    fi
     echo "    volumes:"                                                     >> ./docker-compose.yml
     echo "      - "$FOLDER":/var/www/wp-content/themes/"$NAME               >> ./docker-compose.yml
     echo "    expose:"                                                      >> ./docker-compose.yml
@@ -116,7 +109,7 @@ if [[ ! -e $dockercompose ]]; then
     echo "    environment:"                                                 >> ./docker-compose.yml
     echo "      VIRTUAL_HOST:" $DOMAIN", www."$DOMAIN                       >> ./docker-compose.yml
     echo "    container_name: " $NAME                                       >> ./docker-compose.yml
-    if [[ $HTTPS == 1 ]]; then
+    if [[ $inputVariable == 'production' ]]; then
         echo "  letsencrypt:"                                               >> ./docker-compose.yml
         echo "    image: jrcs/letsencrypt-nginx-proxy-companion"            >> ./docker-compose.yml
         echo "    volumes:"                                                 >> ./docker-compose.yml
@@ -130,12 +123,12 @@ if [[ ! -e $dockercompose ]]; then
     echo "    container_name: nginx-proxy"                                  >> ./docker-compose.yml
     echo "    ports:"                                                       >> ./docker-compose.yml
     echo "      - '80:80'"                                                  >> ./docker-compose.yml
-    if [[ $HTTPS == 1 ]]; then
+    if [[ $inputVariable == 'production' ]]; then
         echo "      - '443:443'"                                            >> ./docker-compose.yml
     fi
     echo "    volumes:"                                                     >> ./docker-compose.yml
     echo "      - /var/run/docker.sock:/tmp/docker.sock:ro"                 >> ./docker-compose.yml
-    if [[ $HTTPS == 1 ]]; then
+    if [[ $inputVariable == 'production' ]]; then
         echo "      - "$FOLDER"../nginx/vhost.d:/etc/nginx/vhost.d"         >> ./docker-compose.yml
         echo "      - "$FOLDER"../nginx/certs:/etc/nginx/certs:rw"          >> ./docker-compose.yml
         echo "      - "$FOLDER"../nginx/html:/usr/share/nginx/html"         >> ./docker-compose.yml
@@ -144,11 +137,4 @@ if [[ ! -e $dockercompose ]]; then
     echo "  default:"                                                       >> ./docker-compose.yml
     echo "    external:"                                                    >> ./docker-compose.yml
     echo "      name: nginx-proxy"                                          >> ./docker-compose.yml
-fi
-
-echo "==============="
-echo ""
-
-if [[ $inputVariable != 'production' ]]; then
-    ./compose_run.sh $MACHINE $DOMAIN
 fi

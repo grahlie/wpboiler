@@ -1,8 +1,6 @@
 {
   "name": "grunt-wordpress-starter",
-  "grunt": {
-    "deploy": "/deploy"
-  },
+  "deploy": "./deploy",
   "docker": {
     "domain": "gruntwordpresstarter.local",
     "dbname": "wp_grunt_wordpress_starter",

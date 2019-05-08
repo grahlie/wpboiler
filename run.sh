@@ -16,17 +16,27 @@ if [[ $inputVariable < 1 ]]; then
     exit;
 fi
 
-echo "1) NPM Install"
+echo "NPM Install"
 if [ ! -d 'node_modules' ] || [[ $inputVariable == 'fresh' ]]; then
     npm install
 else
-    echo "node_modules already exists"
+    echo "NPM already installed"
 fi
 
 echo "==============="
 echo ""
 
-echo "2) Grunt deploy"
+echo "Composer install"
+if [ ! -d 'vendor' ] || [[ $inputVariable == 'fresh' ]]; then
+    composer install
+else
+    echo "Composer already installed"
+fi
+
+echo "==============="
+echo ""
+
+echo "Grunt deploy"
 if [[ $inputVariable == 'production' ]]; then
     grunt production
 elif [[ $inputVariable == 'dev' ]]; then
@@ -36,7 +46,7 @@ fi
 echo "==============="
 echo ""
 
-echo "3) Build docker"
+echo "Build docker"
 cd ./docker
 if [[ $inputVariable == 'production' ]]; then
     ./compose_build.sh production
@@ -48,4 +58,16 @@ elif [[ $inputVariable == 'dev' ]]; then
     ./compose_build.sh dev
 fi
 
-echo "==============="
+if [[ ! $inputVariable == 'production' ]]; then
+    echo "==============="
+    echo ""
+
+    echo "Run docker"
+
+    FILE="../config.json"
+    DOMAIN=$(jq .docker.domain $FILE)
+    DOMAIN="${DOMAIN%\"}"
+    DOMAIN="${DOMAIN#\"}"
+
+    ./compose_run.sh $DOMAIN
+fi

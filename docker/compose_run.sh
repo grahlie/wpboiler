@@ -1,21 +1,26 @@
-MACHINE=$1
-DOMAIN=$2
+DOMAIN=$1
+FILE="../config.json"
+MACHINE=$(jq .docker.machine $FILE)
+MACHINE="${MACHINE%\"}"
+MACHINE="${MACHINE#\"}"
 
 if [ ! $MACHINE == 'none' ]; then
     HOSTIP="$(docker-machine ip $MACHINE)"
+else
+    HOSTIP='127.0.01'
 fi
 
-if [ "docker network ls | grep nginx" ]; then
+if [ "docker network ls | grep nginx-proxy > /dev/null/" ]; then
     docker network create nginx-proxy
 fi
 
-echo "3.5) Compose up"
+echo "Compose up"
 docker-compose up -d
 
 echo "==============="
 echo ""
 
-echo "3.6) Configure hosts file"
+echo "Configure hosts file"
 if grep -Fxq "$HOSTIP $DOMAIN" /etc/hosts; then
     echo "Already exists in host file"
 else
@@ -24,7 +29,8 @@ else
     sudo -- sh -c "echo $HOSTIP $DOMAIN >> /etc/hosts"
 fi
 
-echo "7) You're up and running buddy!"
+echo ""
+echo "You're up and running buddy!"
 echo "The website is running on http://$DOMAIN"
 echo "Next command you can run is grunt watch to start develop your theme"
 echo "==============="

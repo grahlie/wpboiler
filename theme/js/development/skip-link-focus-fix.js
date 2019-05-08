@@ -6,12 +6,12 @@
  * Learn more: https://git.io/vWdr2
  */
 ( function() {
-  var is_webkit = -1 < navigator.userAgent.toLowerCase().indexOf( 'webkit' ),
-    is_opera = -1 < navigator.userAgent.toLowerCase().indexOf( 'opera' ),
-    is_ie = -1 < navigator.userAgent.toLowerCase().indexOf( 'msie' );
+  var isWebkit = -1 < navigator.userAgent.toLowerCase().indexOf( 'webkit' ),
+    iSOpera = -1 < navigator.userAgent.toLowerCase().indexOf( 'opera' ),
+    isIE = -1 < navigator.userAgent.toLowerCase().indexOf( 'msie' );
 
   if (
-    ( is_webkit || is_opera || is_ie ) &&
+    ( isWebkit || iSOpera || isIE ) &&
     document.getElementById &&
     window.addEventListener
   ) {
