@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-// eslint-disable-next-line no-undef
+/* eslint-disable-next-line no-undef */
 module.exports = function( grunt ) {
   require( 'load-grunt-tasks' )( grunt );
 
@@ -14,6 +14,12 @@ module.exports = function( grunt ) {
      * Build css from scss
      * autoprefix
      */
+    stylelint: {
+      options: {
+        configFile: './.stylelintrc.js'
+      },
+      src: [ './theme/sass/**/*.{css,scss}' ]
+    },
     sass: {
       production: {
         options: {
@@ -65,7 +71,6 @@ module.exports = function( grunt ) {
      * PHP
      *
      * Check rules
-     * Fix errors
      * Copy to deploy
      */
     phpcs: {
