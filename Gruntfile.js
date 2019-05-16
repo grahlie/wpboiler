@@ -11,8 +11,9 @@ module.exports = function( grunt ) {
     /*
      * SCSS
      *
+     * Check rules
      * Build css from scss
-     * autoprefix
+     * autoprefix (2 latest versions)
      */
     stylelint: {
       options: {
@@ -83,7 +84,6 @@ module.exports = function( grunt ) {
         standard: 'WordPress'
       }
     },
-
     copy: {
       php: {
         files: [
