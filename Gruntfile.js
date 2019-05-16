@@ -40,6 +40,7 @@ module.exports = function( grunt ) {
     },
     autoprefixer: {
       dist: {
+        browsers: [ 'last 2 versions', 'ie 8', 'ie 9' ],
         files: {
           '<%= deploy %>/style.css': '<%= deploy %>/style.css'
         }
@@ -118,7 +119,7 @@ module.exports = function( grunt ) {
   // Grunt language collection
   grunt.registerTask( 'php', [ 'phpcs', 'copy:php' ] );
   grunt.registerTask( 'javascript', [ 'eslint', 'uglify' ] );
-  grunt.registerTask( 'stylesheet', [ 'sass', 'autoprefixer' ] );
+  grunt.registerTask( 'stylesheet', [ 'stylelint', 'sass', 'autoprefixer' ] );
 
   // Grunt triggers
   grunt.registerTask( 'dev', [ 'php', 'javascript', 'stylesheet' ] );
