@@ -36,7 +36,24 @@ fi
 echo "==============="
 echo ""
 
-echo "Grunt deploy"
+echo "Install JSON parser"
+which jq >/dev/null
+if [[ $? == 1 ]]; then 
+    UNAME=`uname`
+    if [[ "$UNAME" == 'Linux' ]]; then
+        # TODO: this doesn't work
+        sudo apt-get --assume-yes install jq
+    elif [[ "$UNAME" == 'Darwin' ]]; then
+        brew install jq
+    fi
+else
+    echo "JQ already installed"
+fi
+
+echo "==============="
+echo ""
+
+echo "Grunt"
 if [[ $inputVariable == 'production' ]]; then
     grunt production
 elif [[ $inputVariable == 'dev' ]]; then
@@ -46,28 +63,28 @@ fi
 echo "==============="
 echo ""
 
-echo "Build docker"
+echo "Docker"
 cd ./docker
+FILE="../config.json"
 if [[ $inputVariable == 'production' ]]; then
-    ./compose_build.sh production
-elif [[ $inputVariable == 'fresh' ]]; then
-    echo "Fresh docker-compose.yml file"
+    FILE="../config.prod.json"
+
+    if [ ! -f $FILE ]; then
+        echo "config.prod.json Doesn't exists you need to create this first!"
+        echo "exiting script here"
+        exit;
+    fi
+
     rm docker-compose.yml
-    ./compose_build.sh dev
-elif [[ $inputVariable == 'dev' ]]; then
-    ./compose_build.sh dev
+elif [[ $inputVariable == 'fresh' ]]; then
+    rm docker-compose.yml
 fi
 
-if [[ ! $inputVariable == 'production' ]]; then
-    echo "==============="
-    echo ""
+DOCKERCOMPOSE="./docker-compose.yml"
+if [[ ! -e $DOCKERCOMPOSE ]]; then
+    ./compose_build.sh $inputVariable $FILE
+fi
 
-    echo "Run docker"
-
-    FILE="../config.json"
-    DOMAIN=$(jq .docker.domain $FILE)
-    DOMAIN="${DOMAIN%\"}"
-    DOMAIN="${DOMAIN#\"}"
-
-    ./compose_run.sh $DOMAIN
+if [[ $inputVariable == 'dev' ]]; then
+    ./compose_run.sh
 fi

@@ -1,15 +1,15 @@
 {
-  "name": "grunt-wordpress-starter",
-  "deploy": "./deploy",
+  "name": "grahlie-wpboiler",
+  "deploy": "./dist",
   "docker": {
-    "domain": "gruntwordpresstarter.local",
-    "dbname": "wp_grunt_wordpress_starter",
+    "domain": "grahlie-wpboiler.local",
+    "dbname": "wp-grahlie-wpboiler",
     "dbuser": "wpdev",
     "dbpass": "wpdev",
     "debug": 0,
+    "ssl": 0,
     "multisite": 0,
     "version": "4.9.8",
-    "port": 80,
     "machine": "none"
   }
 }

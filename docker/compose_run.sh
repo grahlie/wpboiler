@@ -1,5 +1,7 @@
-DOMAIN=$1
 FILE="../config.json"
+DOMAIN=$(jq .docker.domain $FILE)
+DOMAIN="${DOMAIN%\"}"
+DOMAIN="${DOMAIN#\"}"
 MACHINE=$(jq .docker.machine $FILE)
 MACHINE="${MACHINE%\"}"
 MACHINE="${MACHINE#\"}"
