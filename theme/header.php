@@ -1,7 +1,13 @@
 <?php
 /**
  * The header file, containing the <head> parts
- * @package grahlie
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
  */
 
 ?><!DOCTYPE html>
@@ -18,7 +24,7 @@
 <body <?php body_class(); ?>>
 
 <header id="pageHeader" class="site-header" role="banner">
-	<?php require_once( 'headerContent.php' ); ?>
+	<?php require_once 'headerContent.php'; ?>
 </header>
 
 <div id="pageContent" class="site">

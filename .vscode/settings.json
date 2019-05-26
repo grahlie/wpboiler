@@ -15,5 +15,6 @@
   "prettier.eslintIntegration": true,
 
   // PHP
-  "phpcs.composerJsonPath": "./composer.json"
+  "phpcs.composerJsonPath": "./composer.json",
+  "phpcs.standard": "WordPress"
 }

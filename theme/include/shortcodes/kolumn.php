@@ -2,39 +2,60 @@
 /**
  * Kolumn shortcode
  *
- * @package grahlie
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
  */
-function grahlie_column_shortcode($atts, $content = null) {
-    extract( shortcode_atts( array(
-            'klass' => ''
-            , 'id' => ''
-            ,'storlek' => '6'
-            ,'ordning' => ''
-    ), $atts ) );
-    
-    if ( $klass != '' ) {
-        $class = $klass;
-    }
 
-    if ( $storlek != '' ) {
-        $size = 'size' . $storlek;
-    }
+/**
+ * Shortcode
+ *
+ * @param string $atts    attributes
+ * @param string $content null or content
+ *
+ * @var    string
+ * @return content
+ */
+function grahlie_column_shortcode( $atts, $content = null ) {
+	extract(
+		shortcode_atts(
+			array(
+				'klass'   => '',
+				'id'      => '',
+				'storlek' => '6',
+				'ordning' => '',
+			),
+			$atts
+		)
+	);
 
-    if( $ordning != '' ) {
-        $order = 'order' . $ordning;
-    }
+	if ( '' !== $klass ) {
+		$class = $klass;
+	}
 
-    if ( $id != '' ) {
-        $id = 'id="'.$id.'"';
-    }
+	if ( '' !== $storlek ) {
+		$size = 'size' . $storlek;
+	}
 
-    if ( $content != null) {
-        $content_output = do_shortcode($content);
-    }
+	if ( '' !== $ordning ) {
+		$order = 'order' . $ordning;
+	}
 
-    $output = '<div ' . $id .' class="column ' . $size . ' ' . $order . ' ' . $class . '">' . $content_output . '</div>';
+	if ( '' !== $id ) {
+		$id = 'id="' . $id . '"';
+	}
 
-    return $output;
+	if ( null !== $content ) {
+		$content_output = do_shortcode( $content );
+	}
+
+	$output = '<div ' . $id . ' class="column ' . $size . ' ' . $order . ' ' . $class . '">' . $content_output . '</div>';
+
+	return $output;
 }
 
 add_shortcode( 'grahlieKolumn', 'grahlie_column_shortcode' );

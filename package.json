@@ -10,7 +10,8 @@
   "scripts": {
     "start": "./run.sh dev",
     "deploy": "./run.sh production",
-    "phplint": "./vendor/bin/phpcs -p -s -v -n ./theme --extensions=php"
+    "phplint": "./vendor/bin/phpcs -p -s -v -n ./theme --extensions=php",
+    "phpfix": "./vendor/bin/phpcbf -p -s -v -n ./theme --standard=WordPress --extensions=php"
   },
   "repository": {
     "type": "git",
