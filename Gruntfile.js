@@ -6,7 +6,7 @@ module.exports = function( grunt ) {
   grunt.initConfig( {
     pkg: grunt.file.readJSON( 'package.json' ),
     config: grunt.file.readJSON( 'config.json' ),
-    deploy: process.cwd() + '/<%= config.grunt.deploy %>',
+    deploy: process.cwd() + '/<%= config.deploy %>',
 
     /*
      * SCSS

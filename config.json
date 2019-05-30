@@ -1,6 +1,6 @@
 {
   "name": "grahlie-wpboiler",
-  "deploy": "./dist",
+  "deploy": "dist",
   "docker": {
     "domain": "grahlie-wpboiler.local",
     "dbname": "wp-grahlie-wpboiler",
