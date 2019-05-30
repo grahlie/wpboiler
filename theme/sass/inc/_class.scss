@@ -2,131 +2,152 @@
  * Backgroundcolors
  */
 .Grey {
-    background: $grey;
+	background: $grey;
 }
+
 .LightGrey {
-    background: $lightgrey;
+	background: $lightgrey;
 }
+
 .Black {
-    background: $black;
+	background: $black;
 }
+
 .White {
-    background: $white;
+	background: $white;
 }
+
 .Primary {
-    background: $primary-color;
+	background: $primary-color;
 }
+
 .Secondary {
-    background: $secondary-color;
+	background: $secondary-color;
 }
 
 /*
  * Horizontal margin
  */
 .row.MarginCenter {
-    margin: 0 auto;
+	margin: 0 auto;
 }
+
 /*
  * Extra margin
  */
 .StorMarginalBotten {
-    margin-bottom: 20rem;
+	margin-bottom: 20rem;
 }
+
 .MedelMarginalBotten {
-    margin-bottom: 15rem;
+	margin-bottom: 15rem;
 }
+
 .LitenMarginalBotten {
-    margin-bottom: 5rem;
+	margin-bottom: 5rem;
 }
+
 .MiniMarginalBotten {
-    margin-bottom: 3.5rem;
+	margin-bottom: 3.5rem;
 }
+
 .StorMarginalTopp {
-    margin-top: 20rem;
+	margin-top: 20rem;
 }
+
 .MedelMarginalTopp {
-    margin-top: 15rem;
+	margin-top: 15rem;
 }
+
 .LitenMarginalTopp {
-    margin-top: 5rem;
+	margin-top: 5rem;
 }
 
 /*
  * Extra padding
  */
 .StorFyllningTopp {
-    padding-top: 20rem;
+	padding-top: 20rem;
 
-    @include breakpoint(phone-and-tablet) {
-        padding: 2rem 0;
-    }
+	@include breakpoint(phone-and-tablet) {
+		padding: 2rem 0;
+	}
 }
+
 .MedelFyllningTopp {
-    padding-top: 15rem;
+	padding-top: 15rem;
 
-    @include breakpoint(phone-and-tablet) {
-        padding: 2rem 0;
-    }
+	@include breakpoint(phone-and-tablet) {
+		padding: 2rem 0;
+	}
 }
+
 .LitenFyllningTopp {
-    padding-top: 10rem;
+	padding-top: 10rem;
 
-    @include breakpoint(phone-and-tablet) {
-        padding: 2rem 0;
-    }
+	@include breakpoint(phone-and-tablet) {
+		padding: 2rem 0;
+	}
 }
+
 .StorFyllningBotten {
-    padding-bottom: 20rem;
+	padding-bottom: 20rem;
 
-    @include breakpoint(phone-and-tablet) {
-        padding: 2rem 0;
-    }
+	@include breakpoint(phone-and-tablet) {
+		padding: 2rem 0;
+	}
 }
+
 .MedelFyllningBotten {
-    padding-bottom: 15rem;
+	padding-bottom: 15rem;
 
-    @include breakpoint(phone-and-tablet) {
-        padding: 2rem 0;
-    }
+	@include breakpoint(phone-and-tablet) {
+		padding: 2rem 0;
+	}
 }
-.LitenFyllningBotten {
-    padding-bottom: 10rem;
 
-    @include breakpoint(phone-and-tablet) {
-        padding: 2rem 0;
-    }
+.LitenFyllningBotten {
+	padding-bottom: 10rem;
+
+	@include breakpoint(phone-and-tablet) {
+		padding: 2rem 0;
+	}
 }
 
 /*
  * Text styling
  */
 .CentreraText {
-    text-align: center;
+	text-align: center;
 }
+
 .BigText {
-    text-transform: uppercase;
+	text-transform: uppercase;
 }
 
 /*
  * Button styling
  */
 .CentreraKnapp {
-    margin: 0 auto !important;
-    display: block;
+	margin: 0 auto !important;
+	display: block;
 }
 
 /*
  * Text colors
  */
 .WhiteColor {
-    color: $white;
+	color: $white;
 }
+
 .BlackColor {
-    color: $black;
+	color: $black;
 }
+
 .PrimaryColor {
-    color: $primary-color;
+	color: $primary-color;
 }
+
 .SecondaryColor {
-    color: $secondary-color;
+	color: $secondary-color;
 }

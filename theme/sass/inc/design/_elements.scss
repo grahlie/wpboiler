@@ -1,52 +1,54 @@
-blockquote, q {
-  font-style: italic;
-  font-size: 90%;
+blockquote,
+q {
+	font-style: italic;
+	font-size: 90%;
 }
 
 hr {
-  background-color: $hr-color;
-  border: 0;
-  height: 1px;
-  margin: $font-margin 0;
+	background-color: $hr-color;
+	border: 0;
+	height: 1px;
+	margin: $font-margin 0;
 }
 
 img {
-  height: auto;
-  max-width: 100%;
+	height: auto;
+	max-width: 100%;
 }
 
 // Lists
-ul, ol {
-  padding: 0;
-  margin: 0 0 $font-margin 2rem;
+ul,
+ol {
+	padding: 0;
+	margin: 0 0 $font-margin 2rem;
 }
 
 ul {
-  list-style: disc;
+	list-style: disc;
 }
 
 ol {
-  list-style: decimal;
+	list-style: decimal;
 }
 
 li > ul,
 li > ol {
-  margin-bottom: 0;
-  margin-left: 1.5rem;
+	margin-bottom: 0;
+	margin-left: 1.5rem;
 }
 
 dt {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 dd {
-  margin: 0 1.5rem $font-margin;
+	margin: 0 1.5rem $font-margin;
 }
 
 // Tables
 table {
-  margin: 0 0 $font-margin;
-  width: 100%;
+	margin: 0 0 $font-margin;
+	width: 100%;
 }
 
 // Inputs
@@ -66,27 +68,27 @@ input[type="datetime"],
 input[type="datetime-local"],
 input[type="color"],
 textarea {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 
-  border-radius: $radius;
-  border: 0.1rem solid $input-border-color;
-  color: $input-text-color;
-  font-size: 16px;
-  padding: 0.3rem;
-  box-shadow: none;
+	border-radius: $radius;
+	border: 0.1rem solid $input-border-color;
+	color: $input-text-color;
+	font-size: 16px;
+	padding: 0.3rem;
+	box-shadow: none;
 
-  &:focus {
-    outline: none;
-  }
+	&:focus {
+		outline: none;
+	}
 }
 
 select {
-  border: 0.1rem solid $input-border-color;
-  max-width: 100%;
+	border: 0.1rem solid $input-border-color;
+	max-width: 100%;
 }
 
 textarea {
-  width: 100%;
+	width: 100%;
 }

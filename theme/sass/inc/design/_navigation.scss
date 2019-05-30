@@ -1,200 +1,210 @@
 #nav-trigger {
-    display: none;
-    visibility: hidden;
+	display: none;
+	visibility: hidden;
 }
 
 @include breakpoint(screen) {
-    .main-navigation ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
 
-    .navigation {
-        float: right;
-        line-height: 3;
-        margin: 0;
-        padding-left: 0;
+	.main-navigation ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
 
-        .sub-menu {
-            background: $primary-color;
-            float: left;
-            position: absolute;
-            top: 4.5rem;
-            left: -999rem;
-            z-index: 99999;
+	.navigation {
+		float: right;
+		line-height: 3;
+		margin: 0;
+		padding-left: 0;
 
-            ul {
-                left: -999rem;
-                top: 0;
-            }
+		.sub-menu {
+			background: $primary-color;
+			float: left;
+			position: absolute;
+			top: 4.5rem;
+			left: -999rem;
+			z-index: 99999;
 
-            li {
-                &:hover > ul,
-                &.focus > ul {
-                left: 100%;
-                }
-            }
+			ul {
+				left: -999rem;
+				top: 0;
+			}
 
-            a {
-                color: $bg-color;
-                width: 15rem;
-            }
-        }
+			li {
 
-        li:hover > ul,
-        li.focus > ul {
-            left: auto;
-        }
+				&:hover > ul,
+				&.focus > ul {
+					left: 100%;
+				}
+			}
 
-        li {
-            float: left;
-            position: relative;
+			a {
+				color: $bg-color;
+				width: 15rem;
+			}
+		}
 
-            a {
-                border-radius: $radius;
-                color: $secondary-color;
-                display: block;
-                padding: 0.5rem;
-                text-decoration: none;
-                text-transform: uppercase;
-                margin: 0 0.5rem;
-            }
-        }
-    }
+		li:hover > ul,
+		li.focus > ul {
+			left: auto;
+		}
 
-    .dropdown_navigation {
-        float: right;
-        line-height: 3;
-        margin: 0;
-        padding-left: 0;
-        position: relative;
-        cursor: pointer;
+		li {
+			float: left;
+			position: relative;
 
-        > a {
-            border-radius: $radius;
-            color: $bg-color;
-            display: block;
-            padding: 0.8rem 0.5rem;
-            font-family: $header-font;
-            font-size: $h3-font-size;
-            font-weight: 600;
-            text-decoration: none;
-            text-transform: uppercase;
-            margin: 0 0.5rem;
-            transition: all 0.5s ease;
+			a {
+				border-radius: $radius;
+				color: $secondary-color;
+				display: block;
+				padding: 0.5rem;
+				text-decoration: none;
+				text-transform: uppercase;
+				margin: 0 0.5rem;
+			}
+		}
+	}
 
-            &:hover {
-                color: $secondary-color;
-            }
-        }
+	.dropdown_navigation {
+		float: right;
+		line-height: 3;
+		margin: 0;
+		padding-left: 0;
+		position: relative;
+		cursor: pointer;
 
-        .dropdown_container {
-            background: $secondary-color;
-            display: none;
-            text-align: center;
-            padding: .5rem;
-            min-width: 150px;
-            position: absolute;
-            right: 10px;
-            top: 70px;
+		> a {
+			border-radius: $radius;
+			color: $bg-color;
+			display: block;
+			padding: 0.8rem 0.5rem;
+			font-family: $header-font;
+			font-size: $h3-font-size;
+			font-weight: 600;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin: 0 0.5rem;
+			transition: all 0.5s ease;
 
-            a {
-                text-decoration: none;
-                text-transform: uppercase;
-                padding: 0 1rem;
-            }
-        }
-    }
+			&:hover {
+				color: $secondary-color;
+			}
+		}
 
-    body:not(.home) .current_page_item > a,
-    body:not(.home) .current_page_parent > a,
-    body:not(.home) .current-menu-item > a,
-    body:not(.home) .current_page_ancestor > a,
-    body:not(.home) .current-menu-ancestor > a {
-        color: $primary-color;
-    }
+		.dropdown_container {
+			background: $secondary-color;
+			display: none;
+			text-align: center;
+			padding: 0.5rem;
+			min-width: 150px;
+			position: absolute;
+			right: 10px;
+			top: 70px;
 
-    body:not(.home) .sub-menu .current_page_item > a,
-    body:not(.home) .sub-menu .current_page_parent > a,
-    body:not(.home) .sub-menu .current-menu-item > a,
-    body:not(.home) .sub-menu .current_page_ancestor > a,
-    body:not(.home) .sub-menu .current-menu-ancestor > a {
-        color: $white;
-    }
+			a {
+				text-decoration: none;
+				text-transform: uppercase;
+				padding: 0 1rem;
+			}
+		}
+	}
+
+	body:not(.home) .current_page_item > a,
+	body:not(.home) .current_page_parent > a,
+	body:not(.home) .current-menu-item > a,
+	body:not(.home) .current_page_ancestor > a,
+	body:not(.home) .current-menu-ancestor > a {
+		color: $primary-color;
+	}
+
+	body:not(.home) .sub-menu .current_page_item > a,
+	body:not(.home) .sub-menu .current_page_parent > a,
+	body:not(.home) .sub-menu .current-menu-item > a,
+	body:not(.home) .sub-menu .current_page_ancestor > a,
+	body:not(.home) .sub-menu .current-menu-ancestor > a {
+		color: $white;
+	}
 }
 
 /* Mobile navigation */
 @include breakpoint(phone-and-tablet) {
-    #nav-trigger:checked ~ .navigation {
-        background: $primary-color;
-        transform: translate(0, 0);
-        visibility: visible;
 
-        li, li a {
-            visibility: visible;
-        }
-    }
+	#nav-trigger:checked ~ .navigation {
+		background: $primary-color;
+		transform: translate(0, 0);
+		visibility: visible;
 
-    #nav-trigger:checked ~ #navopen {
-        background: $primary-color;
-        right: 24rem;
+		li,
+		li a {
+			visibility: visible;
+		}
+	}
 
-        &::before, &::after {
-            box-shadow: none;
-            transform: rotate(45deg);
-            top: 45%;
-        }
+	#nav-trigger:checked ~ #navopen {
+		background: $primary-color;
+		right: 24rem;
 
-        &::after {
-            transform: rotate(-45deg);
-        }
-    }
+		&::before,
+		&::after {
+			box-shadow: none;
+			transform: rotate(45deg);
+			top: 45%;
+		}
 
-    #navopen {
-        @include transition(0.5s);
-        background: $primary-color;
-        cursor: pointer;
-        height: 8rem;
-        margin-top: -2rem;
-        position: absolute;
-        right: 0;
-        width: 8rem;
+		&::after {
+			transform: rotate(-45deg);
+		}
+	}
 
-        &::before, &::after {
-            background: $primary-text-color;
-            box-shadow: 0 0.8rem 0 0 $primary-text-color,0 1.6rem 0 0 $primary-text-color;
-            content: '';
-            height: 0.2rem;
-            position: absolute;
-            left: 30%;
-            top: 2.7rem;
-            width: 3rem;
-        }
-    }
+	#navopen {
 
-    .navigation {
-        height: 100%;
-        @include transition(0.5s);
-        padding: 2rem 2rem;
-        position: fixed;
-        right: 0;
-        list-style: none;
-        margin-top: -2rem;
-        transform: translate(100%, 0);
-        visibility: hidden;
-        width: 24rem;
+		@include transition(0.5s);
+		background: $primary-color;
+		cursor: pointer;
+		height: 8rem;
+		margin-top: -2rem;
+		position: absolute;
+		right: 0;
+		width: 8rem;
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 0 2rem;
-        }
+		&::before,
+		&::after {
+			background: $primary-text-color;
+			box-shadow: 0 0.8rem 0 0 $primary-text-color, 0 1.6rem 0 0 $primary-text-color;
+			content: "";
+			height: 0.2rem;
+			position: absolute;
+			left: 30%;
+			top: 2.7rem;
+			width: 3rem;
+		}
+	}
 
-        a, a:visited {
-        @include transition(0.5s);
-            color: $primary-text-color;
-            text-decoration: none;
-        }
-    }
+	.navigation {
+		height: 100%;
+
+		@include transition(0.5s);
+		padding: 2rem 2rem;
+		position: fixed;
+		right: 0;
+		list-style: none;
+		margin-top: -2rem;
+		transform: translate(100%, 0);
+		visibility: hidden;
+		width: 24rem;
+
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0 0 0 2rem;
+		}
+
+		a,
+		a:visited {
+
+			@include transition(0.5s);
+			color: $primary-text-color;
+			text-decoration: none;
+		}
+	}
 }

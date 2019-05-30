@@ -1,15 +1,15 @@
 html {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 *,
-*:before,
-*:after {
-  box-sizing: inherit;
+*::before,
+*::after {
+	box-sizing: inherit;
 }
 
 body {
-  background: $bg-color;
+	background: $bg-color;
 }
 
 .entry-content,
@@ -18,57 +18,64 @@ body {
 .site-footer,
 .entry-footer,
 .hentry {
-  @include clearfix();
+
+	@include clearfix();
 }
 
-.blog section, .search section, .single section {
-  @include siteMain-float();
-  margin: 0 (-$site-sidebar) 0 0;
-  width: $site-main;
+.blog section,
+.search section,
+.single section {
 
-  @include breakpoint(tablet-up) {
-    [role="main"] {
-      margin: 0 $site-sidebar 0 0;
-      padding: 0 2rem 0 0;
-    }
-  }
+	@include siteMain-float();
+	margin: 0 (-$site-sidebar) 0 0;
+	width: $site-main;
+
+	@include breakpoint(tablet-up) {
+
+		[role="main"] {
+			margin: 0 $site-sidebar 0 0;
+			padding: 0 2rem 0 0;
+		}
+	}
 }
 
 .site {
-  margin-bottom: 10rem;
+	margin-bottom: 10rem;
 }
 
 body:not(.home) .site {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 2rem;
 }
 
 // Sidebar layout
 .widget-area {
-  display: none;
-  visibility: hidden;
+	display: none;
+	visibility: hidden;
 }
 
 @include breakpoint(tablet-up) {
-  .widget-area {
-    float: $site-sidebar_float;
-    overflow: hidden;
-    width: $site-sidebar;
-    display: block;
-    visibility: visible;
-  }
+
+	.widget-area {
+		float: $site-sidebar_float;
+		overflow: hidden;
+		width: $site-sidebar;
+		display: block;
+		visibility: visible;
+	}
 }
 
 .blog .format-aside .entry-title,
 .archive .format-aside .entry-title {
-  display: none;
+	display: none;
 }
 
 // Comments layout
 .comment-content a {
-  word-wrap: break-word;
+	word-wrap: break-word;
 }
+
 .bypostauthor {
-  display: block;
+	display: block;
 }

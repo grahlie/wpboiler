@@ -11,7 +11,11 @@
     "start": "./run.sh dev",
     "deploy": "./run.sh production",
     "phplint": "./vendor/bin/phpcs -p -s -v -n ./theme --extensions=php",
-    "phpfix": "./vendor/bin/phpcbf -p -s -v -n ./theme --standard=WordPress --extensions=php"
+    "phpfix": "./vendor/bin/phpcbf -p -s -v -n ./theme --standard=WordPress --extensions=php",
+    "jslint": "eslint -c .eslintrc.js ./theme/js/development/**/*.js",
+    "jsfix": "eslint -c .eslintrc.js --fix ./theme/js/development/**/*.js",
+    "sasslint": "stylelint --config .stylelintrc.js ./theme/sass/**/*.scss",
+    "sassfix": "stylelint --config .stylelintrc.js --fix ./theme/sass/**/*.scss"
   },
   "repository": {
     "type": "git",
