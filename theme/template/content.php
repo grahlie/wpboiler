@@ -42,6 +42,6 @@
 	</div>
 
 	<footer class="entry-footer">
-		<?php echo grahlie_entry_footer(); ?>
+		<?php echo esc_html( grahlie_entry_footer() ); ?>
 	</footer>
 </article>

@@ -11,7 +11,13 @@
  * @link     http://grahlie.se
  */
 
+/**
+ * WordPress theme setup.
+ */
 if ( ! function_exists( 'grahlie_setup' ) ) :
+	/**
+	 * Init function for WordPress.
+	 */
 	function grahlie_setup() {
 		load_theme_textdomain( 'grahlie', get_template_directory() . '/languages' );
 
@@ -21,6 +27,11 @@ if ( ! function_exists( 'grahlie_setup' ) ) :
 		add_image_size( 'featured-image', 1200, 500 );
 		add_image_size( 'startsida-bild', 700, 450 );
 
+		/**
+		 * Set custom image sizes.
+		 *
+		 * @param string $sizes new sizes.
+		 */
 		function grahlie_custom_image_size( $sizes ) {
 			return array_merge(
 				$sizes,
@@ -38,8 +49,8 @@ if ( ! function_exists( 'grahlie_setup' ) ) :
 		function grahlie_create_sidebar() {
 			register_sidebar(
 				array(
-					'name'             => __( 'Fotinnehåll', 'grahlie' ),
-					'id'             => 'footer',
+					'name'          => __( 'Fotinnehåll', 'grahlie' ),
+					'id'            => 'footer',
 					'before_widget' => '<div class="Footer-widget">',
 					'after_widget'  => '</div>',
 					'before_title'  => '',
@@ -111,8 +122,8 @@ add_action( 'after_setup_theme', 'grahlie_setup' );
  * Enqueue scripts and styles.
  */
 function grahlie_scripts() {
-	wp_enqueue_style( 'grahlie-style', get_stylesheet_uri() );
-	wp_enqueue_style( 'MDI', 'https://fonts.googleapis.com/icon?family=Material+Icons' );
+	wp_enqueue_style( 'grahlie-style', get_stylesheet_uri(), [], '1.0' );
+	wp_enqueue_style( 'MDI', 'https://fonts.googleapis.com/icon?family=Material+Icons', [], '1.0' );
 
 	wp_deregister_script( 'jquery' );
 
@@ -126,4 +137,4 @@ add_action( 'wp_enqueue_scripts', 'grahlie_scripts' );
  */
 $tempdir = get_template_directory();
 require $tempdir . '/framework/init.php';
-require $tempdir . '/include/include_init.php';
+require $tempdir . '/include/include-init.php';

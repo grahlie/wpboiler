@@ -14,24 +14,17 @@
 /**
  * Shortcode
  *
- * @param string $atts    attributes
- * @param string $content null or content
+ * @param string $atts    attributes.
+ * @param string $content null or content.
  *
  * @var    string
  * @return content
  */
 function grahlie_row_shortcode( $atts, $content = null ) {
-	extract(
-		shortcode_atts(
-			array(
-				'klass' => '',
-				'id'    => '',
-				'hojd'  => '',
-				'bredd' => '',
-			),
-			$atts
-		)
-	);
+	$klass = $atts['klass'];
+	$id    = $atts['id'];
+	$hojd  = $atts['hojd'];
+	$bredd = $atts['bredd'];
 
 	if ( '' !== $klass ) {
 		$class = $klass;

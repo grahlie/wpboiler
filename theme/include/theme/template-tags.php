@@ -1,11 +1,25 @@
 <?php
 /**
+ * Template tags functions
+ *
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
+ */
+
+/**
  * Filters wp_title to print a neat <title> tag based on what is being viewed.
+ *
+ * @param string $sep separating char.
  */
 function grahlie_pretty_title( $sep ) {
-	 global $page, $post;
+	global $page, $post;
 
-	// Add the blog name
+	// Add the blog name.
 	$blogname = get_bloginfo( 'name' );
 
 	// Add the blog description for the home/front page.
@@ -28,7 +42,8 @@ add_filter( 'wp_title', 'grahlie_pretty_title', 10, 2 );
  * Returns true if a blog has more than 1 category.
  */
 function grahlie_categorized_blog() {
-	if ( false === ( $all_the_cool_cats = get_transient( 'grahlie_categories' ) ) ) {
+	$all_the_cool_cats = get_transient( 'grahlie_categories' );
+	if ( false === $all_the_cool_cats ) {
 		// Create an array of all the categories that are attached to posts.
 		$all_the_cool_cats = get_categories(
 			array(
@@ -38,10 +53,10 @@ function grahlie_categorized_blog() {
 			)
 		);
 
-		 // Count the number of categories that are attached to the posts.
-		 $all_the_cool_cats = count( $all_the_cool_cats );
+		// Count the number of categories that are attached to the posts.
+		$all_the_cool_cats = count( $all_the_cool_cats );
 
-		 set_transient( 'grahlie_categories', $all_the_cool_cats );
+		set_transient( 'grahlie_categories', $all_the_cool_cats );
 	}
 
 	if ( $all_the_cool_cats > 1 ) {

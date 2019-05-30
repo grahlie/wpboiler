@@ -23,7 +23,7 @@
 
 <?php wp_footer(); ?>
 
-<?php echo grahlie_use_analytics(); ?>
+<?php echo esc_html( grahlie_use_analytics() ); ?>
 
 </body>
 </html>

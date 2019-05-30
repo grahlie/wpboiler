@@ -14,32 +14,28 @@
 /**
  * Shortcode
  *
- * @param string $atts    attributes
- * @param string $content null or content
+ * @param string $atts    attributes.
+ * @param string $content null or content.
  *
  * @var    string
  * @return content
  */
 function grahlie_box_shortcode( $atts, $content = null ) {
-	extract(
-		shortcode_atts(
-			array(
-				'klass'      => '',
-				'storlek'    => '',
-				'size'       => '',
-				'id'         => '',
-				'bakgrund'   => '',
-				'background' => '',
-				'sidor'      => '',
-				'pages'      => '',
-				'titel'      => '',
-				'title'      => '',
-				'bild'       => '',
-				'image'      => '',
-			),
-			$atts
-		)
-	);
+	$klass      = $atts['klass'];
+	$class      = $atts['class'];
+	$storlek    = $atts['storlek'];
+	$size       = $atts['size'];
+	$id         = $atts['id'];
+	$href       = $atts['href'];
+	$adress     = $atts['adress'];
+	$bakgrund   = $atts['bakgrund'];
+	$background = $atts['background'];
+	$sidor      = $atts['sidor'];
+	$pages      = $atts['pages'];
+	$title      = $atts['title'];
+	$title      = $atts['title'];
+	$bild       = $atts['bild'];
+	$image      = $atts['image'];
 
 	if ( '' !== $klass ) {
 		$klass = ' ' . $klass;

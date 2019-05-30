@@ -9,16 +9,32 @@
  * Reset settings
  * Upload file
  * Remove file
- * Fetch wordpress pages
+ * Fetch WordPress pages
+ *
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
  */
 
 /**
  * Checking if the theme has been activated
  */
 function grahlie_theme_activated() {
+	if ( ! isset( $_POST['grahlie_noncename'] ) || ! wp_verify_nonce( isset( $_REQUEST['grahlie_noncename'] ), 'grahlie_framework_options' ) ) {
+		$response['error']   = true;
+		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+
+		echo wp_json_encode( $response );
+		die;
+	}
+
 	global $pagenow;
 
-	if ( is_admin() && isset( $_GET['activated'] ) && $pagenow == 'themes.php' ) {
+	if ( is_admin() && isset( $_GET['activated'] ) && 'themes.php' === $pagenow ) {
 		return true;
 	}
 
@@ -26,14 +42,17 @@ function grahlie_theme_activated() {
 }
 
 /**
- * Add a Page to the Framework
+ * Add a Page to the Framework.
+ *
+ * @param string $title Title of page.
+ * @param array  $data data.
  */
 function grahlie_add_framework_page( $title, $data ) {
 	if ( ! is_array( $data ) ) {
 		return false;
 	}
 
-	// Get current Framework pages
+	// Get current Framework pages.
 	$grahlie_options   = get_option( 'grahlie_framework_options' );
 	$grahlie_framework = array();
 
@@ -41,35 +60,37 @@ function grahlie_add_framework_page( $title, $data ) {
 		$grahlie_framework = $grahlie_options['grahlie_framework'];
 	}
 
-	// Add new page
+	// Add new page.
 	$grahlie_framework[ $title ] = $data;
 
-	// Save
+	// Save.
 	$grahlie_options['grahlie_framework'] = $grahlie_framework;
 	update_option( 'grahlie_framework_options', $grahlie_options );
 }
 
 /**
  * Function for creating output on framework page
+ *
+ * @param array $item array of data.
  */
 function grahlie_create_output( $item ) {
-	$output = '<div class="content-settings clearfix ' . $item['id'] . '"><div class="info"><h3>' . __( $item['title'], 'grahlie' ) . '</h3>';
+	$output = '<div class="content-settings clearfix ' . $item['id'] . '"><div class="info"><h3>' . $item['title'] . '</h3>';
 
 	if ( isset( $item['desc'] ) ) {
-		$output .= '<p class="desc">' . __( $item['desc'], 'grahlie' ) . '</p>';
+		$output .= '<p class="desc">' . $item['desc'] . '</p>';
 	}
 
 	$output .= '</div><div class="input">';
 	$output .= grahlie_create_input( $item, null );
 	$output .= '</div></div>';
 
-	// Creating fields for subfields
+	// Creating fields for subfields.
 	if ( $item['sync'] && is_array( $item['sync'] ) ) {
 		foreach ( $item['sync'] as $sync_item ) {
-			$output .= '<div class="content-settings clearfix ' . $sync_item['id'] . '"><div class="info"><h3>' . __( $sync_item['title'], 'grahlie' ) . '</h3>';
+			$output .= '<div class="content-settings clearfix ' . $sync_item['id'] . '"><div class="info"><h3>' . $sync_item['title'] . '</h3>';
 
 			if ( isset( $sync_item['desc'] ) ) {
-				$output .= '<p class="desc">' . __( $sync_item['desc'], 'grahlie' ) . '</p>';
+				$output .= '<p class="desc">' . $sync_item['desc'] . '</p>';
 			}
 
 			$output .= '</div><div class="input">';
@@ -85,26 +106,28 @@ function grahlie_create_output( $item ) {
  * Save button function
  */
 function grahlie_framework_save() {
-	 $response['error'] = false;
+	$response['error']   = false;
 	$response['message'] = '';
 
-	if ( ! isset( $_POST['grahlie_noncename'] ) || ! wp_verify_nonce( $_REQUEST['grahlie_noncename'], 'grahlie_framework_options' ) ) :
-		$response['error'] = true;
+	if ( ! isset( $_POST['grahlie_noncename'] ) || ! wp_verify_nonce( isset( $_REQUEST['grahlie_noncename'] ), 'grahlie_framework_options' ) ) {
+		$response['error']   = true;
 		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
 
-		echo json_encode( $response );
+		echo wp_json_encode( $response );
 		die;
-	endif;
-
-	$grahlie_values = get_option( 'grahlie_framework_values' );
-	foreach ( $_POST['grahlie_framework_values'] as $id => $value ) {
-		$grahlie_values[ $id ] = $value;
 	}
 
-	update_option( 'grahlie_framework_values', $grahlie_values );
-	$response['message'] = __( 'Settings saved', 'grahlie' );
+	$grahlie_values = get_option( 'grahlie_framework_values' );
+	if ( isset( $_POST['grahlie_framework_values'] ) ) {
+		foreach ( sanitize_text_field( wp_unslash( $_POST['grahlie_framework_values'] ) ) as $id => $value ) {
+			$grahlie_values[ $id ] = $value;
+		}
 
-	echo json_encode( $response );
+		update_option( 'grahlie_framework_values', $grahlie_values );
+		$response['message'] = __( 'Settings saved', 'grahlie' );
+	}
+
+	echo wp_json_encode( $response );
 	die;
 }
 add_action( 'wp_ajax_grahlie_framework_save', 'grahlie_framework_save' );
@@ -113,20 +136,20 @@ add_action( 'wp_ajax_grahlie_framework_save', 'grahlie_framework_save' );
  * Reset button function
  */
 function grahlie_framework_reset() {
-	$response['error'] = false;
+	$response['error']   = false;
 	$response['message'] = '';
 
-	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_REQUEST['nonce'], 'grahlie_framework_options' ) ) :
-		$response['error'] = true;
+	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
+		$response['error']   = true;
 		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
-		echo json_encode( $response );
+		echo wp_json_encode( $response );
 		die;
-	endif;
+	}
 
 	update_option( 'grahlie_framework_values', array() );
 	$response['message'] = __( 'Settings deleted', 'grahlie' );
 
-	echo json_encode( $response );
+	echo wp_json_encode( $response );
 	die;
 }
 add_action( 'wp_ajax_grahlie_framework_reset', 'grahlie_framework_reset' );
@@ -136,23 +159,46 @@ add_action( 'wp_ajax_grahlie_framework_reset', 'grahlie_framework_reset' );
  * Upload button function
  */
 function grahlie_upload_file() {
-	$response['error'] = false;
+	$response['error']   = false;
 	$response['message'] = '';
 
-	$wp_upload_dir     = wp_upload_dir();
-	$uploadfile     = $wp_upload_dir['path'] . '/' . basename( $_FILES['uploadedfile']['name'] );
-
-	if ( move_uploaded_file( $_FILES['uploadedfile']['tmp_name'], $uploadfile ) ) :
-		$grahlie_values = get_option( 'grahlie_framework_values' );
-		$grahlie_values[ $_POST['id'] ] = $wp_upload_dir['url'] . '/' . basename( $_FILES['uploadedfile']['name'] );
-		update_option( 'grahlie_framework_values', $grahlie_values );
-		$response['message'] = __( 'Your file have been uploaded', 'grahlie' );
-	else :
-		$response['error'] = true;
+	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
+		$response['error']   = true;
 		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
-	endif;
+		echo wp_json_encode( $response );
+		die;
+	}
 
-	echo json_encode( $response );
+	if ( empty( sanitize_text_field( wp_unslash( $_POST['id'] ) ) ) ) {
+		$response['error']   = true;
+		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		echo wp_json_encode( $response );
+		die;
+	}
+
+	$wp_upload_dir = wp_upload_dir();
+	$id            = sanitize_text_field( wp_unslash( $_POST['id'] ) );
+
+	if ( isset( $_FILES['uploadedfile']['name'] ) && isset( $_FILES['uploadedfile']['tmp_name'] ) ) {
+		$uploadfile_with_path = $wp_upload_dir['path'] . '/' . basename( sanitize_text_field( wp_unslash( $_FILES['uploadedfile']['name'] ) ) );
+		$uploadfile           = basename( sanitize_text_field( wp_unslash( $_FILES['uploadedfile']['name'] ) ) );
+		$tmpfile              = sanitize_text_field( wp_unslash( $_FILES['uploadedfile']['tmp_name'] ) );
+	}
+
+	if ( move_uploaded_file( $tmpfile, $uploadfile_with_path ) ) {
+		$grahlie_values        = get_option( 'grahlie_framework_values' );
+		$grahlie_values[ $id ] = $wp_upload_dir['url'] . '/' . $uploadfile;
+
+		update_option( 'grahlie_framework_values', $grahlie_values );
+
+		$response['message'] = __( 'Your file have been uploaded', 'grahlie' );
+
+	} else {
+		$response['error']   = true;
+		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+	}
+
+	echo wp_json_encode( $response );
 	die;
 
 }
@@ -165,21 +211,28 @@ function grahlie_remove_file() {
 	$response['error']   = false;
 	$response['message'] = '';
 
+	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
+		$response['error']   = true;
+		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		echo wp_json_encode( $response );
+		die;
+	}
+
 	$grahlie_values = get_option( 'grahlie_framework_values' );
 
-	if ( isset( $grahlie_values[ $_POST['id'] ] ) ) :
+	if ( isset( $grahlie_values[ $_POST['id'] ] ) ) {
 		unset( $grahlie_values[ $_POST['id'] ] );
 		update_option( 'grahlie_framework_values', $grahlie_values );
 		$response['message'] = 'Your file have been succesfully removed';
-	endif;
+	}
 
-	echo json_encode( $response );
+	echo wp_json_encode( $response );
 	die;
 }
 add_action( 'wp_ajax_grahlie_remove_file', 'grahlie_remove_file' );
 
 /**
- * Function for fetching pages from wordpress
+ * Function for fetching pages from WordPress.
  */
 function grahlie_get_pages() {
 	$response['error']   = false;
@@ -189,10 +242,10 @@ function grahlie_get_pages() {
 
 	foreach ( $pages as $key => $page ) {
 		$response['name'][ $key ] = $page->post_title;
-		$response['id'][ $key ]     = $page->ID;
+		$response['id'][ $key ]   = $page->ID;
 	}
 
-	echo json_encode( $response );
+	echo wp_json_encode( $response );
 	die;
 }
 add_action( 'wp_ajax_grahlie_get_pages', 'grahlie_get_pages' );

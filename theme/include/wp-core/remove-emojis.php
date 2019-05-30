@@ -1,6 +1,20 @@
 <?php
 /**
+ * Emojis
+ *
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
+ */
+
+/**
  * Remove Emojis
+ *
+ * @param array $plugins plugin list.
  */
 function remove_emojicons_tinymce( $plugins ) {
 	if ( is_array( $plugins ) ) {
@@ -10,6 +24,9 @@ function remove_emojicons_tinymce( $plugins ) {
 	}
 }
 
+/**
+ * Remove emojis init.
+ */
 function remove_emojis() {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'admin_print_styles', 'print_emoji_styles' );

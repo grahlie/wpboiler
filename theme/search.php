@@ -23,7 +23,7 @@ get_header(); ?>
 		?>
 
 		<header class="page-header">
-			<h1 class="page-title"><?php printf( esc_html__( 'Search Results for: %s', 'grahlie' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+			<h1 class="page-title"><?php printf( esc_html( 'Search Results for: %s', 'grahlie' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
 		</header>
 
 		<?php

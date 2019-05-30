@@ -1,8 +1,7 @@
 <?php
 /**
  * The template for displaying archive pages.
- *
- PHP version 7
+ * PHP version 7
  *
  * @category Grahlie_WPBoiler
  * @package  Grahlie_WPBoiler

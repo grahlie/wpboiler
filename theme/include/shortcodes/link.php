@@ -14,26 +14,19 @@
 /**
  * Shortcode
  *
- * @param string $atts    attributes
- * @param string $content null or content
+ * @param string $atts    attributes.
+ * @param string $content null or content.
  *
  * @var    string
  * @return content
  */
 function grahlie_link_shortcode( $atts, $content = null ) {
-	extract(
-		shortcode_atts(
-			array(
-				'class'   => '',
-				'klass'   => '',
-				'storlek' => '',
-				'size'    => '',
-				'id'      => '',
-				'adress'  => '',
-			),
-			$atts
-		)
-	);
+	$class   = $atts['class'];
+	$klass   = $atts['klass'];
+	$storlek = $atts['storlek'];
+	$size    = $atts['size'];
+	$id      = $atts['id'];
+	$adress  = $atts['adress'];
 
 	if ( '' !== $klass ) {
 		$klass = ' ' . $klass;

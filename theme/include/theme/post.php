@@ -1,5 +1,17 @@
 <?php
 /**
+ * Post functions
+ *
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
+ */
+
+/**
  * Display navigation to next/previous post when applicable.
  */
 function grahlie_post_nav() {
@@ -12,7 +24,7 @@ function grahlie_post_nav() {
 	?>
 	<nav class="post-navigation" role="navigation">
 			<?php
-				// Add icons for arrow instead &%ICONS%&
+				// Add icons for arrow instead &%ICONS%&.
 			if ( is_single() ) {
 				previous_post_link( '<div class="nav-previous">%link</div>', _x( '< %title', 'Previous post link', 'grahlie' ) );
 				next_post_link( '<div class="nav-next">%link</div>', _x( '%title >', 'Next post link', 'grahlie' ) );
@@ -23,7 +35,7 @@ function grahlie_post_nav() {
 					'mid_size'  => 2,
 					'end_size'  => 2,
 				);
-				echo paginate_links( $paginate_args );
+				echo esc_html( paginate_links( $paginate_args ) );
 			}
 			?>
 	</nav>
@@ -34,7 +46,7 @@ function grahlie_post_nav() {
  * Prints HTML with meta information for the current post-date/time and author.
  */
 function grahlie_posted_on() {
-	// Add icons for posted_on, byline, category instead &%ICONS%&
+	// Add icons for posted_on, byline, category instead &%ICONS%&.
 	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 
 	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
@@ -51,14 +63,14 @@ function grahlie_posted_on() {
 
 	if ( grahlie_blog_show_date() ) {
 		$posted_on = sprintf(
-			esc_html_x( 'Posted on %s', 'post date', 'grahlie' ),
+			esc_html( 'Posted on %s', 'post date', 'grahlie' ),
 			'<span class="posted-on">' . $time_string . '</span>'
 		);
 	}
 
 	if ( grahlie_blog_show_author() ) {
 		$byline = sprintf(
-			esc_html_x( 'by %s', 'post author', 'grahlie' ),
+			esc_html( 'by %s', 'post author', 'grahlie' ),
 			'<span class="byline"><span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span></span>'
 		);
 	}
@@ -67,12 +79,12 @@ function grahlie_posted_on() {
 	if ( 'post' === get_post_type() ) {
 		$categories_list = get_the_category_list( esc_html__( ', ', 'grahlie' ) );
 		if ( $categories_list && grahlie_categorized_blog() ) {
-			$categoryContent = sprintf( esc_html__( 'Posted in %1$s ', 'grahlie' ), $categories_list );
-			$category = '<span class="cat-links">' . $categoryContent . '</span>';
+			$category_content = sprintf( esc_html( 'Posted in %1$s ', 'grahlie' ), $categories_list );
+			$category         = '<span class="cat-links">' . $category_content . '</span>';
 		}
 	}
 
-	echo $posted_on . ' ' . $byline . ' ' . $category;
+	echo esc_html( $posted_on . ' ' . $byline . ' ' . $category );
 }
 
 /**
@@ -83,7 +95,7 @@ function grahlie_entry_footer() {
 
 	if ( current_user_can( 'manage_options' ) ) {
 		$edit_link = get_edit_post_link();
-		$output .= '<a href="' . $edit_link . '" class="btn btn-secondary edit-link">Edit ' . get_the_title() . '</a>';
+		$output   .= '<a href="' . $edit_link . '" class="btn btn-secondary edit-link">Edit ' . get_the_title() . '</a>';
 	}
 
 	return $output;

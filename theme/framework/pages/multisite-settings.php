@@ -1,16 +1,24 @@
 <?php
-
 /**
  * Create Theme option page for admin settings page
  * And Functions for outputting these settings
+ *
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
  */
 
-// Create page
-add_action( 'admin_init', 'grahlie_multisite_settings' );
+/**
+ * Create page.
+ */
 function grahlie_multisite_settings() {
-	 $multisite_options['title'] = 'Multisite Options';
-	$multisite_options['desc'] = 'Settings for your multisite.';
-	$multisite_options['id'] = 'multisite_options';
+	$multisite_options['title'] = 'Multisite Options';
+	$multisite_options['desc']  = 'Settings for your multisite.';
+	$multisite_options['id']    = 'multisite_options';
 
 	$multisite_options[] = array(
 		'title' => 'Show language switcher',
@@ -35,26 +43,27 @@ function grahlie_multisite_settings() {
 
 	grahlie_add_framework_page( 'Multisite Options', $multisite_options );
 }
+add_action( 'admin_init', 'grahlie_multisite_settings' );
 
 /**
  * Output the language switcher
  */
 function grahlie_show_language_switcher() {
-	 $grahlie_values = get_option( 'grahlie_framework_values' );
+	$grahlie_values = get_option( 'grahlie_framework_values' );
 	$output         = '';
 
-	if ( array_key_exists( 'use_language_switcher', $grahlie_values ) && $grahlie_values['use_language_switcher'] != '' ) {
-		$output = '<div id="language_switcher" class="dropdown_navigation">';
+	if ( array_key_exists( 'use_language_switcher', $grahlie_values ) && '' !== $grahlie_values['use_language_switcher'] ) {
+		$output  = '<div id="language_switcher" class="dropdown_navigation">';
 		$output .= '<a id="language_switcher_picker"><i class="material-icons">language</i></a>';
 
 		$output .= '<div id="language_swithcer_values" class="dropdown_container">';
-		$values = explode( ',', $grahlie_values['lang_language_switcher'] );
+		$values  = explode( ',', $grahlie_values['lang_language_switcher'] );
 		foreach ( $values as $key => $value ) {
 			$trimmed_value = trim( $value );
 			$display_value = trim( explode( '_', $value )[0] );
 			$href_value    = trim( explode( '_', $value )[0] );
 
-			if ( $trimmed_value == $grahlie_values['default_lang_language_switcher'] ) {
+			if ( $trimmed_value === $grahlie_values['default_lang_language_switcher'] ) {
 				$output .= '<a href="/" class="language_' . $display_value . '">' . $display_value . '</a>';
 			} else {
 				$output .= '<a href="/' . $href_value . '" class="language_' . $display_value . '">' . $display_value . '</a>';

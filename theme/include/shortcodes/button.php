@@ -14,27 +14,20 @@
 /**
  * Shortcode
  *
- * @param string $atts    attributes
- * @param string $content null or content
+ * @param string $atts    attributes.
+ * @param string $content null or content.
  *
  * @var    string
  * @return content
  */
 function grahlie_button_shortcode( $atts, $content = null ) {
-	extract(
-		shortcode_atts(
-			array(
-				'class'   => '',
-				'klass'   => '',
-				'storlek' => '',
-				'size'    => '',
-				'id'      => '',
-				'href'    => '',
-				'adress'  => '',
-			),
-			$atts
-		)
-	);
+	$klass   = $atts['klass'];
+	$class   = $atts['class'];
+	$storlek = $atts['storlek'];
+	$size    = $atts['size'];
+	$id      = $atts['id'];
+	$href    = $atts['href'];
+	$adress  = $atts['adress'];
 
 	if ( '' !== $klass ) {
 		$klass = ' ' . $klass;

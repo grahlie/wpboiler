@@ -1,5 +1,17 @@
 <?php
-/*
+/**
+ * Comments
+ *
+ *  PHP version 7
+ *
+ * @category Grahlie_WPBoiler
+ * @package  Grahlie_WPBoiler
+ * @author   Mathias Grahl <mathias@grahlie.se>
+ * @license  GPL-2.0+ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://grahlie.se
+ */
+
+/**
  * Disable support for comments and trackbacks in post types.
  */
 function disable_comments_post_types_support() {
@@ -12,40 +24,45 @@ function disable_comments_post_types_support() {
 	}
 }
 
-/*
+/**
  * Redirect any user trying to access comments page.
  */
 function disable_comments_admin_menu_redirect() {
 	global $pagenow;
 	if ( 'edit-comments.php' === $pagenow ) {
-		wp_redirect( admin_url() );
+		wp_safe_redirect( admin_url() );
 		exit;
 	}
 }
 
-/*
+/**
  * Close comments on the front-end.
  */
 function disable_comments_status() {
 	return false;
 }
 
-/*
+/**
  * Hide existing comments.
+ *
+ * @param array $comments comments.
  */
 function disable_comments_hide_existing_comments( $comments ) {
 	$comments = array();
 	return $comments;
 }
 
-/*
+/**
  * Remove comments page in menu.
  */
 function remove_from_admin_menu() {
-	 remove_menu_page( 'edit-comments.php' );
+	remove_menu_page( 'edit-comments.php' );
 	remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 }
 
+/**
+ * Remove comments init function.
+ */
 function remove_comments() {
 	remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
 
