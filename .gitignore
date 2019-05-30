@@ -23,4 +23,5 @@ vendor
 downloads
 extracted
 deploy
+dist
 docker/docker-compose.yml
