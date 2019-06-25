@@ -1,72 +1,72 @@
 /*
  * Backgroundcolors
  */
-.Grey {
+.grey {
 	background: $grey;
 }
 
-.LightGrey {
+.lightGrey {
 	background: $lightgrey;
 }
 
-.Black {
+.black {
 	background: $black;
 }
 
-.White {
+.white {
 	background: $white;
 }
 
-.Primary {
+.primary {
 	background: $primary-color;
 }
 
-.Secondary {
+.secondary {
 	background: $secondary-color;
 }
 
 /*
  * Horizontal margin
  */
-.row.MarginCenter {
+.row.marginCenter {
 	margin: 0 auto;
 }
 
 /*
  * Extra margin
  */
-.StorMarginalBotten {
+.storMarginalBotten {
 	margin-bottom: 20rem;
 }
 
-.MedelMarginalBotten {
+.medelMarginalBotten {
 	margin-bottom: 15rem;
 }
 
-.LitenMarginalBotten {
+.litenMarginalBotten {
 	margin-bottom: 5rem;
 }
 
-.MiniMarginalBotten {
+.miniMarginalBotten {
 	margin-bottom: 3.5rem;
 }
 
-.StorMarginalTopp {
+.storMarginalTopp {
 	margin-top: 20rem;
 }
 
-.MedelMarginalTopp {
+.medelMarginalTopp {
 	margin-top: 15rem;
 }
 
-.LitenMarginalTopp {
+.litenMarginalTopp {
 	margin-top: 5rem;
 }
 
 /*
  * Extra padding
  */
-.StorFyllningTopp {
+.storFyllningTopp {
 	padding-top: 20rem;
 
 	@include breakpoint(phone-and-tablet) {
@@ -74,7 +74,7 @@
 	}
 }
 
-.MedelFyllningTopp {
+.medelFyllningTopp {
 	padding-top: 15rem;
 
 	@include breakpoint(phone-and-tablet) {
@@ -82,7 +82,7 @@
 	}
 }
 
-.LitenFyllningTopp {
+.litenFyllningTopp {
 	padding-top: 10rem;
 
 	@include breakpoint(phone-and-tablet) {
@@ -90,7 +90,7 @@
 	}
 }
 
-.StorFyllningBotten {
+.storFyllningBotten {
 	padding-bottom: 20rem;
 
 	@include breakpoint(phone-and-tablet) {
@@ -98,7 +98,7 @@
 	}
 }
 
-.MedelFyllningBotten {
+.medelFyllningBotten {
 	padding-bottom: 15rem;
 
 	@include breakpoint(phone-and-tablet) {
@@ -106,7 +106,7 @@
 	}
 }
 
-.LitenFyllningBotten {
+.litenFyllningBotten {
 	padding-bottom: 10rem;
 
 	@include breakpoint(phone-and-tablet) {
@@ -117,18 +117,18 @@
 /*
  * Text styling
  */
-.CentreraText {
+.centreraText {
 	text-align: center;
 }
 
-.BigText {
+.bigText {
 	text-transform: uppercase;
 }
 
 /*
  * Button styling
  */
-.CentreraKnapp {
+.centreraKnapp {
 	margin: 0 auto !important;
 	display: block;
 }
@@ -136,18 +136,18 @@
 /*
  * Text colors
  */
-.WhiteColor {
+.whiteColor {
 	color: $white;
 }
 
-.BlackColor {
+.blackColor {
 	color: $black;
 }
 
-.PrimaryColor {
+.primaryColor {
 	color: $primary-color;
 }
 
-.SecondaryColor {
+.secondaryColor {
 	color: $secondary-color;
 }

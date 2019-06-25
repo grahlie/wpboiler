@@ -27,8 +27,10 @@ echo "==============="
 echo ""
 
 echo "Composer install"
-if [ ! -d 'vendor' ] || [[ $inputVariable == 'fresh' ]]; then
+if [ ! -d 'vendor' ]; then
     composer install
+elif [ ! -d 'dist/wp' ] || [[ $inputVariable == 'fresh' ]]; then
+    composer update -v
 else
     echo "Composer already installed"
 fi
@@ -64,7 +66,6 @@ echo "==============="
 echo ""
 
 echo "Docker"
-cd ./docker
 FILE="../config.json"
 if [[ $inputVariable == 'production' ]]; then
     FILE="../config.prod.json"
@@ -75,16 +76,21 @@ if [[ $inputVariable == 'production' ]]; then
         exit;
     fi
 
-    rm docker-compose.yml
+    rm docker/docker-compose.yml
 elif [[ $inputVariable == 'fresh' ]]; then
-    rm docker-compose.yml
+    rm docker/docker-compose.yml
 fi
 
 DOCKERCOMPOSE="./docker-compose.yml"
 if [[ ! -e $DOCKERCOMPOSE ]]; then
-    ./compose_build.sh $inputVariable $FILE
+    cd .scripts
+    ./create_dockercompose.sh $inputVariable $FILE
+    ./create_htaccess.sh $FILE
+    ./create_wpconfig.sh $FILE
+    cd ../
 fi
 
 if [[ $inputVariable == 'dev' ]]; then
+    cd docker
     ./compose_run.sh
 fi

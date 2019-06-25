@@ -5,7 +5,7 @@ ServerSignature Off
 TraceEnable Off
 
 <VirtualHost *:80>
-  DocumentRoot /var/www
+  DocumentRoot /var/www/
   <Directory /var/www/>
       Order allow,deny
       Allow from all
@@ -13,7 +13,8 @@ TraceEnable Off
       Options -Indexes
   </Directory>
 
-  CustomLog /var/log/docker_apache.log combined_with_forwarded_for
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
 
   # Cachning
   ExpiresByType image/gif                  "access plus 1 week"

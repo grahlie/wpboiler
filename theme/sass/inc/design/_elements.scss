@@ -38,7 +38,7 @@ li > ol {
 }
 
 dt {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 dd {
@@ -52,6 +52,10 @@ table {
 }
 
 // Inputs
+textarea {
+	width: 100%;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="url"],
@@ -87,8 +91,4 @@ textarea {
 select {
 	border: 0.1rem solid $input-border-color;
 	max-width: 100%;
-}
-
-textarea {
-	width: 100%;
 }

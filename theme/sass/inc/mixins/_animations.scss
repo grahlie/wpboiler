@@ -12,17 +12,17 @@
 }
 
 @mixin animation($name, $time) {
+	-webkit-animation: #{$name};
+	-moz-animation: #{$name};
+	-ms-animation: #{$name};
+	-o-animation: #{$name};
+	animation: #{$name};
 	-webkit-animation-duration: #{$time};
 	-moz-animation-duration: #{$time};
 	-ms-animation-duration: #{$time};
 	-o-animation-duration: #{$time};
 	animation-duration: #{$time};
 
-	-webkit-animation: #{$name};
-	-moz-animation: #{$name};
-	-ms-animation: #{$name};
-	-o-animation: #{$name};
-	animation: #{$name};
 }
 
 @mixin transform($transforms) {
@@ -56,7 +56,6 @@
 }
 
 @mixin transform-origin ($origin) {
-	moz-transform-origin: $origin;
 	-o-transform-origin: $origin;
 	-ms-transform-origin: $origin;
 	-webkit-transform-origin: $origin;

@@ -6,7 +6,12 @@ module.exports = function( grunt ) {
   grunt.initConfig( {
     pkg: grunt.file.readJSON( 'package.json' ),
     config: grunt.file.readJSON( 'config.json' ),
-    deploy: process.cwd() + '/<%= config.deploy %>',
+    name: '<%= config.name %>',
+    deploy: process.cwd() + '/<%= config.deploy %>/wp/wp-content/themes/<%= name %>',
+
+    clean: {
+      build: [ '<%= deploy %>/*', '<%= config.deploy %>/composer.json', '<%= config.deploy %>/license.txt', '<%= config.deploy %>/readme.html' ]
+    },
 
     /*
      * SCSS
@@ -123,5 +128,5 @@ module.exports = function( grunt ) {
 
   // Grunt triggers
   grunt.registerTask( 'dev', [ 'php', 'javascript', 'stylesheet' ] );
-  grunt.registerTask( 'production', [ 'php', 'javscript', 'stylesheet' ] );
+  grunt.registerTask( 'production', [ 'clean', 'php', 'javscript', 'stylesheet' ] );
 };

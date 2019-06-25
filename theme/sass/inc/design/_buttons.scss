@@ -1,4 +1,60 @@
-// Buttons
+/*
+ * Sizes
+ */
+.btn {
+
+	&.size3 {
+
+		@include breakpoint(phone-and-tablet) {
+			max-width: 100%;
+		}
+
+		width: 28rem;
+	}
+
+	&.size4 {
+
+		@include breakpoint(phone-and-tablet) {
+			max-width: 100%;
+		}
+
+		width: 38rem;
+	}
+
+	&.size6 {
+
+		@include breakpoint(phone-and-tablet) {
+			max-width: 100%;
+		}
+
+		width: 58rem;
+	}
+
+	&.size12 {
+
+		@include breakpoint(phone-and-tablet) {
+			max-width: 100%;
+		}
+
+		width: 120rem;
+		margin: 0;
+	}
+
+	&.size3,
+	&.size4,
+	&.size6 {
+		margin-right: 1rem;
+
+		@include breakpoint(phone-and-tablet) {
+			margin-right: 0;
+		}
+
+		&:last-of-type {
+			margin-right: 0;
+		}
+	}
+}
+
 button,
 .btn,
 .btn.btn-primary,
@@ -87,62 +143,5 @@ input[type="submit"] {
 
 	&:hover {
 		background: $danger-dark-color;
-	}
-}
-
-/*
- * Sizes
- */
-.btn {
-
-	&.size3,
-	&.size4,
-	&.size6 {
-		margin-right: 1rem;
-
-		@include breakpoint(phone-and-tablet) {
-			margin-right: 0;
-		}
-
-		&:last-of-type {
-			margin-right: 0;
-		}
-	}
-
-	&.size3 {
-
-		@include breakpoint(phone-and-tablet) {
-			max-width: 100%;
-		}
-
-		width: 28rem;
-	}
-
-	&.size4 {
-
-		@include breakpoint(phone-and-tablet) {
-			max-width: 100%;
-		}
-
-		width: 38rem;
-	}
-
-	&.size6 {
-
-		@include breakpoint(phone-and-tablet) {
-			max-width: 100%;
-		}
-
-		width: 58rem;
-	}
-
-	&.size12 {
-
-		@include breakpoint(phone-and-tablet) {
-			max-width: 100%;
-		}
-
-		width: 120rem;
-		margin: 0;
 	}
 }

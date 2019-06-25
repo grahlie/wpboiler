@@ -7,7 +7,7 @@
 @import "mixins/flexbox";
 @import "mixins/animations";
 
-.Skeva {
+.skeva {
 
 	@include skew(0, -10, auto);
 	@include clearfix();

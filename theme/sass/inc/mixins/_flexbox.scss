@@ -36,25 +36,6 @@
 }
 
 /* Size classs */
-.size1,
-.size2,
-.size3,
-.size4,
-.size5,
-.size6,
-.size7,
-.size8,
-.size9,
-.size10,
-.size11,
-.size12 {
-	margin: 0 3% 0 0;
-
-	&:last-of-type {
-		margin-right: 0;
-	}
-}
-
 .size1 {
 	width: 5.5%;
 
@@ -149,6 +130,25 @@
 
 	@include breakpoint(phone) {
 		width: 100%;
+	}
+}
+
+.size1,
+.size2,
+.size3,
+.size4,
+.size5,
+.size6,
+.size7,
+.size8,
+.size9,
+.size10,
+.size11,
+.size12 {
+	margin: 0 3% 0 0;
+
+	&:last-of-type {
+		margin-right: 0;
 	}
 }
 

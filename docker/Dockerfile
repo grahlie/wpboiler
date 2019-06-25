@@ -25,31 +25,21 @@ ENV HTTPS $HTTPS
 
 RUN apt-get update; \
     apt-get install -y --no-install-recommends \
-        less sendmail \
-        libjpeg-dev \
-		libpng-dev \
-    ; \
-	docker-php-ext-install gd mysqli opcache; \
-    apt-get clean && \
-    rm -r /var/lib/apt/lists/* && \
-    rm -r /var/www/html && \
-    rm /etc/apache2/sites-enabled/000-default.conf;
+    less sendmail libjpeg-dev libpng-dev; \
+    docker-php-ext-install gd mysqli opcache; \
+    apt-get clean; \
+    rm -r /var/lib/apt/lists/*; \
+    rm /etc/apache2/sites-available/000-default.conf; \
+    rm -r /var/www/html;
 
-ADD create_htaccess.sh create_wpconfig.sh config_htaccess config_wpconfig config_apache config_php ./
-    
-RUN chmod +x create_htaccess.sh create_wpconfig.sh; \
-    /create_htaccess.sh && /create_wpconfig.sh; \
-    \
-    cat /config_htaccess >> /var/www/.htaccess; \
-    cat /config_wpconfig >> /var/www/wp-config.php; \
-    \
+ADD config_apache config_php ./
+
+RUN cat /config_apache >> /etc/apache2/sites-available/000-default.conf; \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"; \
     cat /config_php >>  "$PHP_INI_DIR/php.ini"; \
-    \
-    rm create_htaccess.sh create_wpconfig.sh config_htaccess config_php config_wpconfig; \
-    \
-    mkdir -p /var/www/wp-content/uploads; \
-    chown -R www-data:www-data /var/www/wp-content;
+    rm config_php; \
+    mkdir -p /var/www/html/wp-content/uploads; \
+    chown -R www-data:www-data /var/www/html/wp-content;
 
 RUN a2enmod rewrite expires deflate headers; \
     yes | /usr/sbin/sendmailconfig;
