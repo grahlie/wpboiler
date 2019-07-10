@@ -24,14 +24,6 @@
  * Checking if the theme has been activated
  */
 function grahlie_theme_activated() {
-	if ( ! isset( $_POST['grahlie_noncename'] ) || ! wp_verify_nonce( isset( $_REQUEST['grahlie_noncename'] ), 'grahlie_framework_options' ) ) {
-		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
-
-		echo wp_json_encode( $response );
-		die;
-	}
-
 	global $pagenow;
 
 	if ( is_admin() && isset( $_GET['activated'] ) && 'themes.php' === $pagenow ) {
@@ -111,7 +103,7 @@ function grahlie_framework_save() {
 
 	if ( ! isset( $_POST['grahlie_noncename'] ) || ! wp_verify_nonce( isset( $_REQUEST['grahlie_noncename'] ), 'grahlie_framework_options' ) ) {
 		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		$response['message'] = __( '1 You do not have permission to update this page', 'grahlie' );
 
 		echo wp_json_encode( $response );
 		die;
@@ -141,7 +133,7 @@ function grahlie_framework_reset() {
 
 	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
 		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		$response['message'] = __( '2 You do not have permission to update this page', 'grahlie' );
 		echo wp_json_encode( $response );
 		die;
 	}
@@ -164,14 +156,14 @@ function grahlie_upload_file() {
 
 	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
 		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		$response['message'] = __( '3 You do not have permission to update this page', 'grahlie' );
 		echo wp_json_encode( $response );
 		die;
 	}
 
 	if ( empty( sanitize_text_field( wp_unslash( $_POST['id'] ) ) ) ) {
 		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		$response['message'] = __( '4 You do not have permission to update this page', 'grahlie' );
 		echo wp_json_encode( $response );
 		die;
 	}
@@ -195,7 +187,7 @@ function grahlie_upload_file() {
 
 	} else {
 		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		$response['message'] = __( '5 You do not have permission to update this page', 'grahlie' );
 	}
 
 	echo wp_json_encode( $response );
@@ -213,7 +205,7 @@ function grahlie_remove_file() {
 
 	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
 		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
+		$response['message'] = __( '6 You do not have permission to update this page', 'grahlie' );
 		echo wp_json_encode( $response );
 		die;
 	}

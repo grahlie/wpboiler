@@ -15,14 +15,6 @@
  * Admin page.
  */
 function grahlie_admin_page() {
-	if ( ! isset( $_POST['grahlie_noncename'] ) || ! wp_verify_nonce( isset( $_REQUEST['grahlie_noncename'] ), 'grahlie_framework_options' ) ) {
-		$response['error']   = true;
-		$response['message'] = __( 'You do not have permission to update this page', 'grahlie' );
-
-		echo wp_json_encode( $response );
-		die;
-	}
-
 	$grahlie_options = get_option( 'grahlie_framework_options' );
 
 	if ( isset( $_GET['tab'] ) ) {
@@ -32,24 +24,13 @@ function grahlie_admin_page() {
 	}
 	?>
 
-	<div id="grahlie-messages">
-	<?php if ( isset( $_GET['activated'] ) ) { ?>
-			<div class="grahlie-updated" id="active">
-				<span class="message-icon"><i class="fa fa-heart"></i></span>
-				<p class="message-text"><?php esc_html( $grahlie_options['theme_name'] . ' is activated' ); ?></p>
-			</div>
-	<?php } ?>
-		<div class="grahlie-success" id="message">
-			<span class="message-icon"><i class="fa fa-check"></i></span>
-			<p class="message-text"></p>
-		</div>
-	</div>
+
 	<div id="grahlie-framework">
 		<form method="post" action="<?php echo esc_url( site_url() ) . '/wp-admin/admin-ajax.php'; ?>" enctype="multipart/form-data">
 			<header>
 				<a class="author_logo" href="<?php echo esc_url( $grahlie_options['theme_authorURI'] ); ?>" alt="<?php echo esc_html( $grahlie_options['theme_author'] ); ?>" target="_blank">
-					<?php $logo_svg = wp_remote_get( GRAHLIE_URL . '/images/grahlie.svg' ); ?>
-					<?php echo esc_html( $logo_svg ); ?>
+					<?php $logo_svg = get_template_directory_uri() . '/framework/images/grahlie.svg'; ?>
+					<?php echo '<img src=' . esc_html( $logo_svg ) . ' />'; ?>
 				</a>
 				<h1 class="theme_logo">
 					<?php echo esc_html( $grahlie_options['theme_name'] ); ?>
@@ -61,7 +42,7 @@ function grahlie_admin_page() {
 					<ul>
 						<?php foreach ( $grahlie_options['grahlie_framework'] as $page ) : ?>
 							<li>
-								<a href="?page=grahlieframework&tab=<?php echo esc_url( $page['id'] ); ?>" class="<?php echo $tab === $page['id'] ? 'active' : ''; ?>">
+								<a href="<?php echo esc_url( '?page=grahlieframework&tab=' . $page['id'] ); ?>" class="<?php echo $tab === $page['id'] ? 'active' : ''; ?>">
 									<?php echo esc_html( $page['title'] ); ?>
 								</a>
 							</li>
@@ -87,7 +68,7 @@ function grahlie_admin_page() {
 							<?php foreach ( $page as $item ) { ?>
 								<?php if ( is_array( $item ) ) { ?>
 
-									<?php echo esc_html( grahlie_create_output( $item ) ); ?>
+									<?php echo grahlie_create_output( $item ); ?>
 
 								<?php } ?>
 							<?php } ?>

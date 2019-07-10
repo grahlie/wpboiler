@@ -108,7 +108,7 @@ module.exports = function( grunt ) {
       },
       php: {
         files: [ 'theme/**/*.php' ],
-        tasks: [ 'php' ]
+        tasks: [ 'phpDev' ]
       },
       css: {
         files: [ 'theme/sass/**/*.scss' ],
@@ -122,11 +122,12 @@ module.exports = function( grunt ) {
   } );
 
   // Grunt language collection
-  grunt.registerTask( 'php', [ 'phpcs', 'copy:php' ] );
+  grunt.registerTask( 'phpDev', [ 'copy:php' ] );
+  grunt.registerTask( 'phpProduction', [ 'phpcs', 'copy:php' ] );
   grunt.registerTask( 'javascript', [ 'eslint', 'uglify' ] );
   grunt.registerTask( 'stylesheet', [ 'stylelint', 'sass', 'autoprefixer' ] );
 
   // Grunt triggers
-  grunt.registerTask( 'dev', [ 'php', 'javascript', 'stylesheet' ] );
-  grunt.registerTask( 'production', [ 'clean', 'php', 'javscript', 'stylesheet' ] );
+  grunt.registerTask( 'dev', [ 'phpDev', 'javascript', 'stylesheet' ] );
+  grunt.registerTask( 'production', [ 'clean', 'phpProduction', 'javscript', 'stylesheet' ] );
 };
