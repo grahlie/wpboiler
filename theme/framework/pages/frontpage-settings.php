@@ -64,10 +64,7 @@ add_action( 'admin_init', 'grahlie_frontpage_settings' );
  */
 function grahlie_intro_header_text() {
 	$grahlie_values = get_option( 'grahlie_framework_values' );
-
-	$output = '<div class="site-intro">' . $grahlie_values['frontpage_intro_text'] . '</div>';
-
-	return $output;
+	return $grahlie_values['frontpage_intro_text'];
 }
 
 

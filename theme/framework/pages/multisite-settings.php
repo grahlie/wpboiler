@@ -50,28 +50,26 @@ add_action( 'admin_init', 'grahlie_multisite_settings' );
  */
 function grahlie_show_language_switcher() {
 	$grahlie_values = get_option( 'grahlie_framework_values' );
-	$output         = '';
+	return array_key_exists( 'use_language_switcher', $grahlie_values ) && '' !== $grahlie_values['use_language_switcher'];
+}
 
-	if ( array_key_exists( 'use_language_switcher', $grahlie_values ) && '' !== $grahlie_values['use_language_switcher'] ) {
-		$output  = '<div id="language_switcher" class="dropdown_navigation">';
-		$output .= '<a id="language_switcher_picker"><i class="material-icons">language</i></a>';
+/**
+ * Language swithcer languages
+ */
+function grahlie_list_languages() {
+	$grahlie_values = get_option( 'grahlie_framework_values' );
+	$output         = array();
+	$values         = explode( ',', $grahlie_values['lang_language_switcher'] );
 
-		$output .= '<div id="language_swithcer_values" class="dropdown_container">';
-		$values  = explode( ',', $grahlie_values['lang_language_switcher'] );
-		foreach ( $values as $key => $value ) {
-			$trimmed_value = trim( $value );
-			$display_value = trim( explode( '_', $value )[0] );
-			$href_value    = trim( explode( '_', $value )[0] );
+	foreach ( $values as $key => $value ) {
+		$trimmed_value = trim( $value );
+		$display_value = trim( explode( '_', $value )[0] );
+		$href_value    = trim( explode( '_', $value )[0] );
 
-			if ( $trimmed_value === $grahlie_values['default_lang_language_switcher'] ) {
-				$output .= '<a href="/" class="language_' . $display_value . '">' . $display_value . '</a>';
-			} else {
-				$output .= '<a href="/' . $href_value . '" class="language_' . $display_value . '">' . $display_value . '</a>';
-			}
-		}
-		$output .= '</div>';
-
-		$output .= '</div>';
+		$output['class'] = 'language_' . $display_value;
+		$output['title'] = $display_value;
+		$output['href']  = $trimmed_value === $grahlie_values['default_lang_language_switcher'] ? '/' : $href_value;
 	}
+
 	return $output;
 }

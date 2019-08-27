@@ -66,17 +66,17 @@ add_action( 'admin_init', 'grahlie_theme_settings' );
  */
 function grahlie_use_logotype() {
 	$grahlie_values = get_option( 'grahlie_framework_values' );
-	$output         = '<h1 class="site-title"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home">';
+	$values         = array();
 
 	if ( array_key_exists( 'use_logotype', $grahlie_values ) && 'on' === $grahlie_values['use_logotype'] && '' !== $grahlie_values['logotype_file'] ) {
-		$output .= '<img src="' . $grahlie_values['logotype_file'] . '" />';
+		$values['show'] = true;
+		$values['src']  = $grahlie_values['logotype_file'];
 	} else {
-		$output .= get_bloginfo( 'name' );
+		$values['show'] = false;
+		$values['src']  = get_bloginfo( 'name' );
 	}
 
-	$output .= '</a></h1>';
-
-	return $output;
+	return $values;
 }
 
 /**
