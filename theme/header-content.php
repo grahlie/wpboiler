@@ -17,7 +17,7 @@ if ( get_the_post_thumbnail( $post->ID ) ) : ?>
 <?php endif; ?>
 		<div class="site-branding">
 			<h1 class="site-title">
-				<a href="' . esc_url( home_url( '/' ) ) . '" rel="home">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 					<?php $use_logotype = grahlie_use_logotype(); ?>
 					<?php if ( true === $use_logotype['show'] ) : ?>
 						<img src="<?php echo esc_html( $use_logotype['src'] ); ?>" />
