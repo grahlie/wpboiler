@@ -154,7 +154,7 @@ function grahlie_upload_file() {
 	$response['error']   = false;
 	$response['message'] = '';
 
-	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
+	if ( ! isset( $_POST['grahlie_upload_nonce'] ) || ( isset( $_REQUEST['grahlie_upload_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['grahlie_upload_nonce'] ) ), 'grahlie_framework_upload' ) ) ) {
 		$response['error']   = true;
 		$response['message'] = __( '3 You do not have permission to update this page', 'grahlie' );
 		echo wp_json_encode( $response );

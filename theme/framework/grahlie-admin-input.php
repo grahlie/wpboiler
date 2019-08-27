@@ -160,7 +160,7 @@ function grahlie_create_input( $item, $parent ) {
 
 		$output .= '
         <input type="file" id="upload_' . $item['id'] . '" name="fileupload"  style="display: none;"/>
-        <input id="upload_' . $item['id'] . '_button" type="button" class="grahlie-button-primary" value="' . $item['val'] . '" />
+		<input id="upload_' . $item['id'] . '_button" type="button" class="grahlie-button-primary" value="' . $item['val'] . '" />
         <input id="delete_' . $item['id'] . '_button" type="button" class="grahlie-button" value="' . __( 'Remove', 'grahlie' ) . '" ' . $display . ' />';
 
 		?>
@@ -180,6 +180,7 @@ function grahlie_create_input( $item, $parent ) {
 						data.append("uploadedfile", file);
 						data.append("action", "grahlie_upload_file");
 						data.append("id", "<?php echo esc_html( $item['id'] ); ?>");
+						data.append("grahlie_upload_nonce", "<?php echo esc_attr( wp_create_nonce( 'grahlie_framework_upload' ) ); ?>" );
 
 						$(button).val("<?php esc_html_e( 'Uploading file', 'grahlie' ); ?>");
 
