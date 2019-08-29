@@ -54,10 +54,7 @@ function grahlie_link_shortcode( $atts, $content = null ) {
 		$content_output = do_shortcode( $content );
 	}
 
-	if ( '' === $pages ) {
-		$output = '
-			<a href="' . $href . '" ' . $target . ' class="grahlieLink' . $class . '' . $size . '"' . $background . '>' . $content_output . '</a>';
-	}
+	$output = '<a href="' . $href . '" ' . $target . ' class="grahlieLink' . $class . '' . $size . '"' . $background . '>' . $content_output . '</a>';
 
 	return $output;
 }

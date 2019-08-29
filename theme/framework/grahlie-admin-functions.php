@@ -101,7 +101,7 @@ function grahlie_framework_save() {
 	$response['error']   = false;
 	$response['message'] = '';
 
-	if ( ! isset( $_POST['grahlie_noncename'] ) || ! wp_verify_nonce( isset( $_REQUEST['grahlie_noncename'] ), 'grahlie_framework_options' ) ) {
+	if ( ! isset( $_POST['grahlie_noncename'] ) || ( isset( $_REQUEST['grahlie_noncename'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['grahlie_noncename'] ) ), 'grahlie_framework_options' ) ) ) {
 		$response['error']   = true;
 		$response['message'] = __( '1 You do not have permission to update this page', 'grahlie' );
 
@@ -111,7 +111,9 @@ function grahlie_framework_save() {
 
 	$grahlie_values = get_option( 'grahlie_framework_values' );
 	if ( isset( $_POST['grahlie_framework_values'] ) ) {
-		foreach ( sanitize_text_field( wp_unslash( $_POST['grahlie_framework_values'] ) ) as $id => $value ) {
+		$data = array_map( 'wp_kses_post', wp_unslash( $_POST['grahlie_framework_values'] ) );
+
+		foreach ( $data as $id => $value ) {
 			$grahlie_values[ $id ] = $value;
 		}
 
@@ -203,7 +205,7 @@ function grahlie_remove_file() {
 	$response['error']   = false;
 	$response['message'] = '';
 
-	if ( ! isset( $_POST['nonce'] ) || ( isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'grahlie_framework_options' ) ) ) {
+	if ( ! isset( $_POST['grahlie_upload_nonce'] ) || ( isset( $_REQUEST['grahlie_upload_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['grahlie_upload_nonce'] ) ), 'grahlie_framework_upload' ) ) ) {
 		$response['error']   = true;
 		$response['message'] = __( '6 You do not have permission to update this page', 'grahlie' );
 		echo wp_json_encode( $response );

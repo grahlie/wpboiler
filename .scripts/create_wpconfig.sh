@@ -59,7 +59,7 @@ if [[ ! -f "../$FOLDER/wp/wp-config.php" ]]; then
 
     echo "# Disable edits & updates"                       >>../$FOLDER/wp/wp-config.php
     echo "define('DISALLOW_FILE_EDIT', true);"             >>../$FOLDER/wp/wp-config.php
-    echo "define('DISALLOW_FILE_MODS', true);"             >>../$FOLDER/wp/wp-config.php
+    echo "define('DISALLOW_FILE_MODS', false);"            >>../$FOLDER/wp/wp-config.php
     echo "define('AUTOMATIC_UPDATER_DISABLED', true);"     >>../$FOLDER/wp/wp-config.php
     echo "define('WP_AUTO_UPDATE_CORE', false);"           >>../$FOLDER/wp/wp-config.php
 

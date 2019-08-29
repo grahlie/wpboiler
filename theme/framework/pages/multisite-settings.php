@@ -59,16 +59,23 @@ function grahlie_show_language_switcher() {
 function grahlie_list_languages() {
 	$grahlie_values = get_option( 'grahlie_framework_values' );
 	$output         = array();
-	$values         = explode( ',', $grahlie_values['lang_language_switcher'] );
+	$default_lang   = array( $grahlie_values['default_lang_language_switcher'] );
+	$other_lang     = explode( ',', $grahlie_values['lang_language_switcher'] );
+	$values         = array_merge( $default_lang, $other_lang );
 
 	foreach ( $values as $key => $value ) {
 		$trimmed_value = trim( $value );
-		$display_value = trim( explode( '_', $value )[0] );
-		$href_value    = trim( explode( '_', $value )[0] );
+		if ( false !== strpos( $value, '_' ) ) {
+			$display_value = trim( explode( '_', $value )[1] );
+			$href_value    = trim( explode( '_', $value )[0] );
+		} else {
+			$display_value = trim( $value );
+			$href_value    = trim( $value );
+		}
 
-		$output['class'] = 'language_' . $display_value;
-		$output['title'] = $display_value;
-		$output['href']  = $trimmed_value === $grahlie_values['default_lang_language_switcher'] ? '/' : $href_value;
+		$output[ $key ]['class'] = 'language_' . $display_value;
+		$output[ $key ]['title'] = $display_value;
+		$output[ $key ]['href']  = $trimmed_value === $grahlie_values['default_lang_language_switcher'] ? '/' : $href_value;
 	}
 
 	return $output;

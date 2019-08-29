@@ -57,7 +57,8 @@ if ( get_the_post_thumbnail( $post->ID ) ) : ?>
 
 		<?php
 		if ( get_the_post_thumbnail( $post->ID ) ) :
-			echo '<div class="site-intro">' . esc_html( grahlie_intro_header_text() ) . '</div>';
+			$intro_text = html_entity_decode( grahlie_intro_header_text() );
+			echo '<div class="site-intro">' . do_shortcode( $intro_text ) . '</div>';
 		endif;
 		?>
 	</div>

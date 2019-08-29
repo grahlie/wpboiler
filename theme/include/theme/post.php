@@ -84,19 +84,15 @@ function grahlie_posted_on() {
 		}
 	}
 
-	echo esc_html( $posted_on . ' ' . $byline . ' ' . $category );
+	echo wp_kses_post( $posted_on . ' ' . $byline . ' ' . $category );
 }
 
 /**
  * Prints HTML with meta information for the categories, tags and comments.
  */
 function grahlie_entry_footer() {
-	$output = '';
-
 	if ( current_user_can( 'manage_options' ) ) {
 		$edit_link = get_edit_post_link();
-		$output   .= '<a href="' . $edit_link . '" class="btn btn-secondary edit-link">Edit ' . get_the_title() . '</a>';
+		echo '<a href="' . esc_url( $edit_link ) . '" class="btn btn-secondary edit-link">Edit ' . esc_html( get_the_title() ) . '</a>';
 	}
-
-	return $output;
 }

@@ -180,7 +180,7 @@ function grahlie_create_input( $item, $parent ) {
 						data.append("uploadedfile", file);
 						data.append("action", "grahlie_upload_file");
 						data.append("id", "<?php echo esc_html( $item['id'] ); ?>");
-						data.append("grahlie_upload_nonce", "<?php echo esc_attr( wp_create_nonce( 'grahlie_framework_upload' ) ); ?>" );
+						data.append("grahlie_upload_nonce", "<?php echo esc_attr( wp_create_nonce( 'grahlie_framework_upload' ) ); ?>");
 
 						$(button).val("<?php esc_html_e( 'Uploading file', 'grahlie' ); ?>");
 
@@ -225,7 +225,11 @@ function grahlie_create_input( $item, $parent ) {
 					$.ajax({
 						url: "<?php echo esc_url( site_url() ); ?>/wp-admin/admin-ajax.php",
 						type: "POST",
-						data: {action: "grahlie_remove_file", id: "<?php echo esc_html( $item['id'] ); ?>"},
+						data: {
+							action: "grahlie_remove_file",
+							id: "<?php echo esc_html( $item['id'] ); ?>",
+							grahlie_upload_nonce: "<?php echo esc_attr( wp_create_nonce( 'grahlie_framework_upload' ) ); ?>"
+						},
 						dataType: "json",
 
 						success: function(data){
