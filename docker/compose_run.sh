@@ -9,7 +9,7 @@ MACHINE="${MACHINE#\"}"
 if [ ! $MACHINE == 'none' ]; then
     HOSTIP="$(docker-machine ip $MACHINE)"
 else
-    HOSTIP='127.0.01'
+    HOSTIP='127.0.0.1'
 fi
 
 if [ "docker network ls | grep nginx-proxy > /dev/null/" ]; then
